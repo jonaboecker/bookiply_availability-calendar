@@ -1,0 +1,12 @@
+runtime: python39
+
+env_variables:
+  BOOKIPLY_API_Key: ${{ secrets.BOOKIPLY_API_Key }}
+  fa_API_KEY: ${{ secrets.fa_API_Key }}
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: auto

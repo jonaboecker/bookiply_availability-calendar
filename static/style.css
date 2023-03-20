@@ -1,0 +1,45 @@
+#calendar {
+            width: 100%;
+        }
+        #calendar .weekdays {
+            background: #3286E6;
+        }
+        td {
+            height: 50px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        #calendar td, #calendar th {
+            padding: 5px;
+            box-sizing:border-box;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+        #calendar .weekdays th {
+            text-align: center;
+            text-transform: uppercase;
+            line-height: 20px;
+            border: none !important;
+            padding: 10px 6px;
+            font-weight: bold;
+        }
+        h1 {
+            text-align: center;
+            grid-column: 1 / -1;
+            font-size: 30px;
+            font-weight: bold;
+            padding: 10px 0;
+            margin: 0 40px; /* füge eine margin hinzu */
+        }
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* zentriere horizontal */
+            text-align: center;
+            margin-top: 20px; /* füge Abstand hinzu */
+            margin-bottom: 20px; /* füge Abstand hinzu */
+        }
+        .fa-solid {
+            background-color: transparent;
+            font-size: 25px;
+        }

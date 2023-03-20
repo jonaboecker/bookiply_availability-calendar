@@ -1,8 +1,8 @@
 runtime: python39
 
 env_variables:
-  BOOKIPLY_API_Key: $BOOKIPLY_API_Key
-  fa_API_KEY: $fa_API_Key
+  BOOKIPLY_API_Key: $BOOKIPLY_API_KEY
+  fa_API_KEY: $FA_API_KEY
 
 handlers:
 - url: /static

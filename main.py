@@ -124,7 +124,7 @@ def get_availability():
 
 @app.route('/test')
 def test():
-    return 'test'
+    return 'test' + os.environ.get('BOOKIPLY_API_Key') + os.environ.get('fa_API_KEY')
 
 
 @app.route('/')

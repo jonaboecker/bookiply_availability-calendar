@@ -122,11 +122,6 @@ def get_availability():
     return render_template('calendar.html', weeks=weeks,  infos=infos, fa_key=fa_key)
 
 
-@app.route('/test')
-def test():
-    return BOOKIPY_URL + ' test ' + os.environ.get('BOOKIPLY_API_Key') + os.environ.get('fa_API_KEY')
-
-
 @app.route('/')
 def index():
     return 'Welcome to Availability checker for holiday apartment Haidle.' \

@@ -7,6 +7,9 @@ import os
 app = Flask(__name__)
 
 BOOKIPY_URL = 'https://api.bookiply.com/pmc/rest/apartments/43146778/ical.ics?key=' + os.environ.get('BOOKIPLY_API_Key')
+# booked_dates may could occur errors, if two requests at same time?!
+# used in get_month_data (read and write) and calculate_monthStartDays (write)
+booked_dates = []
 
 
 def get_month_data(year, month):
@@ -16,6 +19,7 @@ def get_month_data(year, month):
 
     # Verarbeiten Sie den Inhalt der iCal-Datei
     cal = Calendar.from_ical(content)
+    global booked_dates
     booked_dates = []
 
     # Iterieren Sie durch alle Ereignisse im Kalender
@@ -37,19 +41,32 @@ def get_month_data(year, month):
     last_day_of_month = last_day_of_month.replace(day=1) - timedelta(days=1)
     for day in range(1, last_day_of_month.day + 1):
         date = datetime(year, month, day)
-        status = "free"
-        # flat is free at last and first day of booking:
-        # could cause problems, if flat is booked just one day!
-        if (date.date() in booked_dates) and (date.date() - timedelta(1) in booked_dates) and (date.date() + timedelta(1) in booked_dates):
-            status = "booked"
-        if date < today.replace(hour=0, minute=0, second=0, microsecond=0):
-            status = "past"
         day_data = {
             "date": date,
-            "status": status
+            "status": calculateStatusofDate(date)
         }
         month_data.append(day_data)
+    #print(month_data)
     return month_data
+
+
+def calculateStatusofDate(date):
+    status = "free"
+    # flat is free at last and first day of booking:
+    # could cause problems, if flat is booked just one day!
+    if (date.date() in booked_dates) and (date.date() - timedelta(1) in booked_dates) and (
+            date.date() + timedelta(1) in booked_dates):
+        status = "booked"
+    # set start/ end of a booking
+    if date.date() in booked_dates and status == "free":
+        if date.date() - timedelta(1) not in booked_dates:
+            status = "begin"
+        else:
+            status = "end"
+    today = datetime.today()
+    if date < today.replace(hour=0, minute=0, second=0, microsecond=0):
+        status = "past"
+    return status
 
 
 def calculate_monthStartDays(dates):
@@ -58,7 +75,7 @@ def calculate_monthStartDays(dates):
     for i in range(1, first_weekday + 1):
         temp_date = day_data = {
             "date": month_start - timedelta(i),
-            "status": 'start'
+            "status": calculateStatusofDate(month_start - timedelta(i))
         }
         dates.insert(0, temp_date)
     return dates

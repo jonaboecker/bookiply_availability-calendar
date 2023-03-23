@@ -32,7 +32,17 @@
             {% for week in weeks %}
                 <tr>
                 {% for day in week %}
-                    <td style="background-color: {% if day['status'] == 'free' %}green{% elif day['status'] == 'booked' %}red{% elif day['status'] == 'start' %}white{% else %}gray{% endif %};">{{ day['date'].day }}</td>
+                    {% if day['status'] == 'free' %}
+                        <td style="background-color: green;">{{ day['date'].day }}</td>
+                    {% elif day['status'] == 'booked' %}
+                        <td style="background-color: red;">{{ day['date'].day }}</td>
+                    {% elif day['status'] == 'past' %}
+                        <td style="background-color: gray;">{{ day['date'].day }}</td>
+                    {% elif day['status'] == 'begin' %}
+                        <td style="background: linear-gradient(to top left, red 50%, green 50%);">{{ day['date'].day }}</td>
+                    {% elif day['status'] == 'end' %}
+                        <td style="background: linear-gradient(to bottom right, red 50%, green 50%);">{{ day['date'].day }}</td>
+                    {% endif %}
                 {% endfor %}
                 </tr>
             {% endfor %}

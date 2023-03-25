@@ -15,6 +15,30 @@
         <button onclick="window.location.href='/availability?year={{ infos['next_year'] }}&month={{ infos['next_month'] }}'">
             <i class="fa-solid fa-arrow-right"></i>
         </button>
+        <form>
+            <div class="selector">
+                <label for="month-select">Gehe zu:</label>
+                <select id="month-select" name="month" onchange="this.form.submit()">
+                    {% set months = [   {'value': '01', 'name': 'Januar ' + infos['thisYear']},
+                                        {'value': '02', 'name': 'Februar ' + infos['thisYear']},
+                                        {'value': '03', 'name': 'März ' + infos['thisYear']},
+                                        {'value': '04', 'name': 'April ' + infos['thisYear']},
+                                        {'value': '05', 'name': 'Mai ' + infos['thisYear']},
+                                        {'value': '06', 'name': 'Juni ' + infos['thisYear']},
+                                        {'value': '07', 'name': 'Juli ' + infos['thisYear']},
+                                        {'value': '08', 'name': 'August ' + infos['thisYear']},
+                                        {'value': '09', 'name': 'September ' + infos['thisYear']},
+                                        {'value': '10', 'name': 'Oktober ' + infos['thisYear']},
+                                        {'value': '11', 'name': 'November ' + infos['thisYear']},
+                                        {'value': '12', 'name': 'Dezember ' + infos['thisYear']}] %}
+                    {% for month in months %}
+                    <option value="{{ month.value }}" {% if month.name.startswith(infos['month_text']) %} selected {% endif %}>
+                    {{ month.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
     </div>
     <table id="calendar">
         <thead>

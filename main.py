@@ -110,6 +110,7 @@ def calculate_weeks(dates):
 
 
 def get_Infos(month, year):
+    today = datetime.today()
     prev_date = datetime(year, month, 1) - timedelta(days=1)
     next_date = datetime(year, month, 1) + timedelta(days=32)
     months = {
@@ -129,11 +130,13 @@ def get_Infos(month, year):
     infos = {
         'month_text': months.get(month),
         'year': year,
+        'thisYear': today.strftime("%Y"),
         'prev_year': prev_date.strftime("%Y"),
         'prev_month': prev_date.strftime("%m"),
         'next_year': next_date.strftime("%Y"),
         'next_month': next_date.strftime("%m")
     }
+    print(infos)
     return infos
 
 

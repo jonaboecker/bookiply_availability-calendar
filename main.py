@@ -46,7 +46,6 @@ def get_month_data(year, month):
             "status": calculateStatusofDate(date)
         }
         month_data.append(day_data)
-    #print(month_data)
     return month_data
 
 
@@ -69,11 +68,12 @@ def calculateStatusofDate(date):
     return status
 
 
+# add days (Monday to weekday of day 1 of month) to dates
 def calculate_monthStartDays(dates):
     month_start = dates[0].get('date')
     first_weekday = month_start.weekday()
     for i in range(1, first_weekday + 1):
-        temp_date = day_data = {
+        temp_date = {
             "date": month_start - timedelta(i),
             "status": calculateStatusofDate(month_start - timedelta(i))
         }
@@ -81,6 +81,7 @@ def calculate_monthStartDays(dates):
     return dates
 
 
+# split dates in list of weeks for correct output of calendar
 def calculate_weeks(dates):
     weeks = []
     current_week = [None] * 7
@@ -91,8 +92,20 @@ def calculate_weeks(dates):
         if current_weekday == 0 or day == dates[len(dates) - 1]:
             weeks.append(current_week)
             current_week = [None] * 7
-    # remove all None values from last week
-    weeks[len(weeks) - 1] = [i for i in weeks[len(weeks) - 1] if i is not None]
+    # set days at end of month belong to next month
+    i = 1
+    tempLastWeek = []
+    for day in weeks[len(weeks) - 1]:
+        if day is None:
+            temp_date = {
+                "date": dates[len(dates) - 1].get('date') + timedelta(i),
+                "status": calculateStatusofDate(dates[len(dates) - 1].get('date') + timedelta(i))
+            }
+            tempLastWeek.append(temp_date)
+            i += 1
+        else:
+            tempLastWeek.append(day)
+    weeks[len(weeks) - 1] = tempLastWeek
     return weeks
 
 
@@ -116,10 +129,10 @@ def get_Infos(month, year):
     infos = {
         'month_text': months.get(month),
         'year': year,
-        'prev_year':    prev_date.strftime("%Y"),
-        'prev_month':   prev_date.strftime("%m"),
-        'next_year':    next_date.strftime("%Y"),
-        'next_month':   next_date.strftime("%m")
+        'prev_year': prev_date.strftime("%Y"),
+        'prev_month': prev_date.strftime("%m"),
+        'next_year': next_date.strftime("%Y"),
+        'next_month': next_date.strftime("%m")
     }
     return infos
 
@@ -136,7 +149,7 @@ def get_availability():
     weeks = calculate_weeks(dates)
     infos = get_Infos(month, year)
     fa_key = os.environ.get('fa_API_KEY')
-    return render_template('calendar.html', weeks=weeks,  infos=infos, fa_key=fa_key)
+    return render_template('calendar.html', weeks=weeks, infos=infos, fa_key=fa_key)
 
 
 @app.route('/')

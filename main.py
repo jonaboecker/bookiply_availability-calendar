@@ -146,19 +146,24 @@ def get_availability():
     year = request.args.get('year', default=today.year, type=int)
     month = request.args.get('month', default=today.month, type=int)
     if month not in range(1, 13):
-        return render_template('error.html', message='ValueError: month must be in 1..12 or empty')
+        return render_template('errorHandling/error.html', message='ValueError: month must be in 1..12 or empty'), 400
     dates = get_month_data(year, month)
     dates = calculate_monthStartDays(dates)
     weeks = calculate_weeks(dates)
     infos = get_Infos(month, year)
     fa_key = os.environ.get('fa_API_KEY')
-    return render_template('calendar.html', weeks=weeks, infos=infos, fa_key=fa_key)
+    return render_template('calendar.html', weeks=weeks, infos=infos, fa_key=fa_key), 200
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errorHandling/404.html'), 404
 
 
 @app.route('/')
 def index():
     return 'Welcome to Availability checker for holiday apartment Haidle.' \
-           'Please visit us on ferienwohnung-haidle.de'
+           'Please visit us on ferienwohnung-haidle.de', 200
 
 
 if __name__ == '__main__':

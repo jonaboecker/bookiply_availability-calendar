@@ -140,6 +140,16 @@ def get_Infos(month, year):
     return infos
 
 
+@app.route('/requestbooking')
+def requestBooking():
+    return render_template('requestbooking.html'), 200
+
+
+@app.route('/submit-requestbooking', methods=['POST'])
+def submitRequestBooking():
+    return 'Not implemented yet', 200
+
+
 @app.route('/availability')
 def get_availability():
     today = datetime.today()

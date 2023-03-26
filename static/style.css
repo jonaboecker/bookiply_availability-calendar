@@ -1,10 +1,4 @@
-.selector {
-    text-align: center;
-    grid-column: 1 / -1;
-    font-size: 20px;
-    padding: 10px 0;
-    margin: 0 40px; /* füge eine margin hinzu */
-}
+
 #calendar {
             width: 100%;
         }
@@ -39,13 +33,44 @@
             margin: 0 40px; /* füge eine margin hinzu */
         }
         div {
+          margin-top: 20px;
+          margin-bottom: 20px;
+        }
+        div .selector {
+            text-align: center;
+            grid-column: 1 / -1;
+            font-size: 20px;
+            padding: 10px 0;
+            margin: 0 40px; /* füge eine margin hinzu */
+        }
+
+        @media screen and (min-width: 450px) {
+          div {
             display: flex;
             align-items: center;
-            justify-content: center; /* zentriere horizontal */
+            justify-content: center;
             text-align: center;
-            margin-top: 20px; /* füge Abstand hinzu */
-            margin-bottom: 20px; /* füge Abstand hinzu */
+          }
         }
+
+        @media screen and (max-width: 600px) {
+          div .selector {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+          }
+
+          div label {
+            display: block;
+            margin-bottom: 5px;
+          }
+
+          div select {
+            display: inline-block;
+            margin-right: 10px;
+          }
+        }
+
         .fa-solid {
             background-color: transparent;
             font-size: 25px;

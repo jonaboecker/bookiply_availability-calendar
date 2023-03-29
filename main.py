@@ -143,9 +143,7 @@ def get_Infos(month, year):
 
 @app.route('/requestbooking', methods=['GET', 'POST'])
 def requestBooking():
-    print("test1  ")
     if request.method == 'POST':
-        print("test2  ")
         print(request.form)
         postValid = True
         mail = request.form['email']
@@ -153,14 +151,11 @@ def requestBooking():
         lastName = request.form['last-name']
         startDate = request.form['start-date']
         endDate = request.form['end-date']
-        print("test erinnerung request")
         adults = int(request.form['adults'])
         children = int(request.form['children'])
         sendConfirmation = "confirmation-mail" in request.form
-        print("test6  ")
 
         if not mail:
-            print("test7  ")
             flash('Mail is required!', 'error')
             postValid = False
         if not firstName:
@@ -205,8 +200,6 @@ def requestBooking():
                 # mail.send(msg)
                 flash('Wir haben dir eine Bestätigungsmail an ' + mail + ' geschickt. '
                       'Kontrolliere auch deinen Spam-Ordner ;-)', 'success')
-        print("test4  ")
-    print("test5  ")
     return render_template('requestbooking.html'), 200
 
 

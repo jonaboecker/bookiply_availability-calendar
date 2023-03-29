@@ -1,3 +1,8 @@
+function hideElem(elem) {
+  const box = document.getElementById(elem);
+  box.style.display = 'none';
+}
+
 function incrementGuests(guestType) {
   var guests = document.getElementById(guestType);
   var currentGuests = parseInt(guests.value);

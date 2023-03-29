@@ -1,10 +1,11 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, url_for, flash, redirect
 from datetime import datetime, timedelta
 from icalendar import Calendar
 import requests
 import os
 
 app = Flask(__name__)
+app.secret_key = 'abc123'
 
 BOOKIPY_URL = 'https://api.bookiply.com/pmc/rest/apartments/43146778/ical.ics?key=' + os.environ.get('BOOKIPLY_API_Key')
 # booked_dates may could occur errors, if two requests at same time?!
@@ -140,14 +141,73 @@ def get_Infos(month, year):
     return infos
 
 
-@app.route('/requestbooking')
+@app.route('/requestbooking', methods=['GET', 'POST'])
 def requestBooking():
+    print("test1  ")
+    if request.method == 'POST':
+        print("test2  ")
+        print(request.form)
+        postValid = True
+        mail = request.form['email']
+        firstName = request.form['first-name']
+        lastName = request.form['last-name']
+        startDate = request.form['start-date']
+        endDate = request.form['end-date']
+        print("test erinnerung request")
+        adults = int(request.form['adults'])
+        children = int(request.form['children'])
+        sendConfirmation = "confirmation-mail" in request.form
+        print("test6  ")
+
+        if not mail:
+            print("test7  ")
+            flash('Mail is required!', 'error')
+            postValid = False
+        if not firstName:
+            flash('First-Name is required!', 'error')
+            postValid = False
+        if not lastName:
+            flash('Last-Name is required!', 'error')
+            postValid = False
+        if not startDate:
+            flash('Start-Date is required!', 'error')
+            postValid = False
+        if not endDate:
+            flash('End-Date is required!', 'error')
+            postValid = False
+        if adults + children == 0:
+            flash('At least one person is required!', 'error')
+            postValid = False
+        if adults + children > 4:
+            flash('Maximum 4 persons are allowed!', 'error')
+            postValid = False
+        if postValid:
+            print("Handle request now")
+            # Handle request
+            # send submit mail
+            # msg = Message('Anfrage für Ferienwohnung',)
+            # msg.add_recipient(mail)
+            # msg.body = "Hallo " + firstName + " " + lastName + ",\n\n" + "vielen Dank für Ihre Anfrage für die Ferienwohnung. Wir werden uns schnellstmöglich bei Ihnen melden.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
+            # mail.send(msg)
+            # # send admin mail
+            # msg = Message('Anfrage für Ferienwohnung',)
+            # msg.add_recipient(os.environ.get('ADMIN_MAIL'))
+            # msg.body = "Hallo Admin,\n\n" + "es gibt eine neue Anfrage für die Ferienwohnung. Bitte prüfen Sie die Anfrage und melden Sie sich bei dem Gast.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
+            # mail.send(msg)
+            print(mail + " " + firstName)
+            flash('Vielen Dank für deine Buchungsanfrage! '
+                  'Wir haben diese erhalten und melden uns schnellstmöglich bei dir.', 'success')
+            if sendConfirmation:
+                # send submit mail
+                # msg = Message('Anfrage für Ferienwohnung',)
+                # msg.add_recipient(mail)
+                # msg.body = "Hallo " + firstName + " " + lastName + ",\n\n" + "vielen Dank für Ihre Anfrage für die Ferienwohnung. Wir werden uns schnellstmöglich bei Ihnen melden.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
+                # mail.send(msg)
+                flash('Wir haben dir eine Bestätigungsmail an ' + mail + ' geschickt. '
+                      'Kontrolliere auch deinen Spam-Ordner ;-)', 'success')
+        print("test4  ")
+    print("test5  ")
     return render_template('requestbooking.html'), 200
-
-
-@app.route('/submit-requestbooking', methods=['POST'])
-def submitRequestBooking():
-    return 'Not implemented yet', 200
 
 
 @app.route('/availability')

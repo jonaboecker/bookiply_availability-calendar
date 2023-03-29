@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <title>Belegungsanzeige Ferienwohnung Haidle</title>
     <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='calendar.css') }}">
 </head>
 <body>
     <div>
-        <button onclick="window.location.href='/availability?year={{ infos['prev_year'] }}&month={{ infos['prev_month'] }}'">
-            <i class="fa-solid fa-arrow-left"></i>
-        </button>
+        <a href="/availability?year={{ infos['prev_year'] }}&month={{ infos['prev_month'] }}"><i class="fa-regular fa-circle-left fa-2xl" style="color: #3286e6;"></i></a>
         <h1>{{ infos['month_text'] }} {{ infos['year'] }}</h1>
-        <button onclick="window.location.href='/availability?year={{ infos['next_year'] }}&month={{ infos['next_month'] }}'">
-            <i class="fa-solid fa-arrow-right"></i>
-        </button>
+        <a href="/availability?year={{ infos['next_year'] }}&month={{ infos['next_month'] }}"><i class="fa-regular fa-circle-right fa-2xl" style="color: #3286e6;"></i></a>
         <form>
             <div class="selector">
                 <label for="month-select">Gehe zu:</label>

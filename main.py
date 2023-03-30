@@ -5,7 +5,7 @@ import requests
 import os
 
 app = Flask(__name__)
-app.secret_key = 'abc123'
+app.secret_key = os.environ.get('Flask_Secret_Key_FEWO')
 
 BOOKIPY_URL = 'https://api.bookiply.com/pmc/rest/apartments/43146778/ical.ics?key=' + os.environ.get('BOOKIPLY_API_Key')
 # booked_dates may could occur errors, if two requests at same time?!
@@ -137,14 +137,12 @@ def get_Infos(month, year):
         'next_year': next_date.strftime("%Y"),
         'next_month': next_date.strftime("%m")
     }
-    print(infos)
     return infos
 
 
 @app.route('/requestbooking', methods=['GET', 'POST'])
 def requestBooking():
     if request.method == 'POST':
-        print(request.form)
         postValid = True
         mail = request.form['email']
         firstName = request.form['first-name']
@@ -189,7 +187,6 @@ def requestBooking():
             # msg.add_recipient(os.environ.get('ADMIN_MAIL'))
             # msg.body = "Hallo Admin,\n\n" + "es gibt eine neue Anfrage für die Ferienwohnung. Bitte prüfen Sie die Anfrage und melden Sie sich bei dem Gast.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
             # mail.send(msg)
-            print(mail + " " + firstName)
             flash('Vielen Dank für deine Buchungsanfrage! '
                   'Wir haben diese erhalten und melden uns schnellstmöglich bei dir.', 'success')
             if sendConfirmation:

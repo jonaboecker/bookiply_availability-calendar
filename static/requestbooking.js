@@ -3,12 +3,14 @@ function hideElem(elem) {
   box.style.display = 'none';
 }
 
+
+
 function incrementGuests(guestType) {
   var guests = document.getElementById(guestType);
   var currentGuests = parseInt(guests.value);
   if (currentGuests < 4) {
     guests.value = currentGuests + 1;
-    if (guestType == "children") {
+    if (guestType === "children") {
       addAgeDropdown();
     }
   }
@@ -19,7 +21,7 @@ function decrementGuests(guestType) {
   var currentGuests = parseInt(guests.value);
   if (currentGuests > 0) {
     guests.value = currentGuests - 1;
-    if (guestType == "children") {
+    if (guestType === "children") {
       removeAgeDropdown();
     }
   }

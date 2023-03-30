@@ -2,12 +2,14 @@ from flask import Flask, request, render_template, url_for, flash, redirect
 from datetime import datetime, timedelta
 from icalendar import Calendar
 import requests
+import re
 import os
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('Flask_Secret_Key_FEWO')
 
 BOOKIPY_URL = 'https://api.bookiply.com/pmc/rest/apartments/43146778/ical.ics?key=' + os.environ.get('BOOKIPLY_API_Key')
+fa_key = os.environ.get('fa_API_KEY')
 # booked_dates may could occur errors, if two requests at same time?!
 # used in get_month_data (read and write) and calculate_monthStartDays (write)
 booked_dates = []
@@ -153,26 +155,57 @@ def requestBooking():
         children = int(request.form['children'])
         sendConfirmation = "confirmation-mail" in request.form
 
-        if not mail:
-            flash('Mail is required!', 'error')
+        # check if datefields are empty otherwise an error occurs in the next step
+        if not startDate or not endDate:
+            flash('Bitte gebe ein Datum für Buchungsbeginn/Buchungsende ein!', 'error')
+            return render_template('requestbooking.html', fa_key=fa_key), 200
+        startDate = datetime.strptime(startDate, '%Y-%m-%d')
+        endDate = datetime.strptime(endDate, '%Y-%m-%d')
+
+        # check if data are valid
+        if not mail or re.fullmatch(r".+@.+\..+", mail):
+            flash('Bitte gebe eine gültige E-Mail-Adresse ein,'
+                  ' über die wir dir deine Buchung bestätigen können', 'error')
             postValid = False
         if not firstName:
-            flash('First-Name is required!', 'error')
+            flash('Bitte gebe deinen Vornamen ein', 'error')
             postValid = False
         if not lastName:
-            flash('Last-Name is required!', 'error')
+            flash('Bitte gebe deinen Nachnamen ein', 'error')
             postValid = False
-        if not startDate:
-            flash('Start-Date is required!', 'error')
+
+        # check dates
+        today = datetime.today()
+        if (startDate < today.replace(hour=0, minute=0, second=0, microsecond=0)) or \
+                (endDate < today.replace(hour=0, minute=0, second=0, microsecond=0)):
+            flash('Deine Buchungsanfrage liegt in der Vergangenheit. '
+                  'Wir können dir viele Wünsche erfüllen aber leider keine Zeitreisen ermöglichen. '
+                  'Wähle daher einen Buchungszeitraum in der Zukunft aus. ', 'error')
             postValid = False
-        if not endDate:
-            flash('End-Date is required!', 'error')
+        elif startDate > endDate:
+            flash('Dein Buchungsende liegt vor deinem Buchungsbeginn. '
+                  'Bitte wähle einen korrekten Zeitraum aus.', 'error')
             postValid = False
-        if adults + children == 0:
-            flash('At least one person is required!', 'error')
+        elif startDate == endDate:
+            flash('Buchungsbeginn und Buchungsende sind am gleichen Tag gewählt. '
+                  'Bitte wähle einen korrekten Zeitraum aus.', 'error')
+            postValid = False
+        elif (endDate - startDate).days > 14:
+            flash('Du hast einen Buchungszeitraum von mehr als 14 Tagen gewählt. '
+                  'Bitte wähle einen kürzeren Zeitraum aus.', 'error')
+            postValid = False
+        elif (endDate - startDate).days < 3:
+            flash('Du hast einen Buchungszeitraum von weniger als 3 Tagen gewählt. '
+                  'Bitte wähle einen längeren Zeitraum aus.', 'error')
+            postValid = False
+
+        # check persons
+        if adults + children <= 0:
+            flash('Es musst mit mindestens eine Person anreisen!', 'error')
             postValid = False
         if adults + children > 4:
-            flash('Maximum 4 persons are allowed!', 'error')
+            flash('Du kannst mit maximal drei weiteren Personen anreisen! '
+                  'Bitte passe deine Personenanzahl an.', 'error')
             postValid = False
         if postValid:
             print("Handle request now")
@@ -197,7 +230,7 @@ def requestBooking():
                 # mail.send(msg)
                 flash('Wir haben dir eine Bestätigungsmail an ' + mail + ' geschickt. '
                       'Kontrolliere auch deinen Spam-Ordner ;-)', 'success')
-    return render_template('requestbooking.html'), 200
+    return render_template('requestbooking.html', fa_key=fa_key), 200
 
 
 @app.route('/availability')
@@ -211,7 +244,6 @@ def get_availability():
     dates = calculate_monthStartDays(dates)
     weeks = calculate_weeks(dates)
     infos = get_Infos(month, year)
-    fa_key = os.environ.get('fa_API_KEY')
     return render_template('calendar.html', weeks=weeks, infos=infos, fa_key=fa_key), 200
 
 

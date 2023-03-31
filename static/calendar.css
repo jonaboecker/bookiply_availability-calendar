@@ -56,6 +56,10 @@ span, label, p, ul, a, h1, h2, h3 {
             text-align: center;
         }
 
+        label {
+            margin-right: 10px;
+        }
+
         @media screen and (max-width: 600px) {
             div {
                 display: block;
@@ -63,9 +67,8 @@ span, label, p, ul, a, h1, h2, h3 {
                 text-align: center;
             }
           div .selector {
-            display: block;
+            display: flex;
             text-align: center;
-            margin-top: 10px;
           }
           div .head {
             display: flex;

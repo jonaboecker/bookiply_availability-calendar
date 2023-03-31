@@ -31,44 +31,40 @@
     {% endfor %}
 	<form method="POST">
         <div class="form-2-col">
-				<div class="row mb-20">
-					<h3>Meine Kontaktdaten</h3>
-                    <input type="text" id="email" name="email" placeholder="Email-Adresse" value="{{ request.form['email'] }}" >
-                    <input type="text" id="first-name" name="first-name" placeholder="Vorname" >
-                    <input type="text" id="last-name" name="last-name" placeholder="Nachname" >
-                    <div class="mt-10">
-                        <input type="checkbox" id="confirmation-mail" name="confirmation-mail" checked>
-                        <label for="confirmation-mail">Ich möchte eine Bestätigungsmail erhalten</label>
-                    </div>
+            <div class="row mb-20">
+                <h3>Kontaktdaten:</h3>
+                <input type="text" id="email" name="email" placeholder="E-Mail-Adresse" value="{{ request.form['email'] }}" >
+                <input type="text" id="first-name" name="first-name" placeholder="Vorname" value="{{ request.form['first-name'] }}" >
+                <input type="text" id="last-name" name="last-name" placeholder="Nachname" value="{{ request.form['last-name'] }}">
+                <div class="mt-10">
+                    <input type="checkbox" id="confirmation-mail" name="confirmation-mail" checked>
+                    <label for="confirmation-mail">Ich möchte eine Bestätigungsmail erhalten</label>
                 </div>
-                <div class="row mb-20">
-                    <h3>Meine Adresse</h3>
-                    <p>Hier werden Adressdaten Abgefragt</p>
-                </div>
-        </div>
-        <div class="form-2-col">
-			<div class="row mb-20">
-                <h3>Meine Buchung</h3>
-                <label for="start-date">Buchungsbeginn:</label>
-                <input type="date" id="start-date" name="start-date" ><br><br>
-
-                <label for="end-date">Buchungsende:</label>
-                <input type="date" id="end-date" name="end-date" >
             </div>
             <div class="row mb-20">
-                <h3>Wer ist dabei</h3>
+                <h3>Buchung:</h3>
+                <label for="start-date">Buchungsbeginn:</label>
+                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}"><br><br>
+
+                <label for="end-date">Buchungsende:</label>
+                <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}" >
+
                 <div id="guests">
                     <div class="guest-type">
                         <label for="adults">Erwachsene:</label>
-                        <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('adults')"></i>
-                        <input type="number" id="adults" name="adults" value=0 readonly>
-                        <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('adults')"></i>
+                        <div class="guest-selector">
+                            <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('adults')"></i>
+                            <input type="number" id="adults" name="adults" value=0 readonly>
+                            <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('adults')"></i>
+                        </div>
                     </div>
                     <div class="guest-type">
                         <label for="children">Kinder:</label>
-                        <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('children')"></i>
-                        <input type="number" id="children" name="children" value=0 readonly>
-                        <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('children')"></i>
+                        <div class="guest-selector">
+                            <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('children')"></i>
+                            <input type="number" id="children" name="children" value=0 readonly>
+                            <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('children')"></i>
+                        </div>
                     </div>
                 </div>
             </div>

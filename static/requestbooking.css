@@ -8,7 +8,7 @@ span, label, p, ul, a, h1, h2, h3 {
 
 h1 {
   font-family: "Local Poppins", Arial, Helvetica, sans-serif;
-  color: #73b242;
+  color: #3286e6;
   border-bottom: 1px solid #73b242;
   margin-top: 0px;
   margin-right: 0px;
@@ -22,8 +22,8 @@ h1 {
 
 h3 {
   font-family: "Local Poppins", Arial, Helvetica, sans-serif;
-  color: #73b242;
-  border-bottom: 1px solid #73b242;
+  color: #3286e6;
+  border-bottom: 1px solid #3286e6;
   margin-top: 0px;
   margin-right: 0px;
   margin-bottom: 20px;
@@ -168,4 +168,23 @@ label {
 .guest-type {
   display: flex;
   align-items: center;
+}
+
+.guest-selector {
+  display: flex;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .guest-type {
+    display: block;
+    align-items: center;
+  }
+
+  .form-2-col {
+    display: flex;
+    flex-direction: column; }
+    .form-2-col .row {
+      width: 100%;
+      padding: 0px 5% 0px 0px; }
 }

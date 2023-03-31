@@ -48,20 +48,28 @@ span, label, p, ul, a, h1, h2, h3 {
             margin: 0 40px; /* füge eine margin hinzu */
         }
 
-        @media screen and (min-width: 450px) {
-          div {
+
+        div {
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-          }
         }
 
         @media screen and (max-width: 600px) {
+            div {
+                display: block;
+                align-items: center;
+                text-align: center;
+            }
           div .selector {
             display: block;
             text-align: center;
             margin-top: 10px;
+          }
+          div .head {
+            display: flex;
+            align-items: center;
           }
 
           div label {

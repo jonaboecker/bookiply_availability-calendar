@@ -8,9 +8,11 @@
 </head>
 <body>
     <div>
-        <a href="/availability?year={{ infos['prev_year'] }}&month={{ infos['prev_month'] }}"><i class="fa-regular fa-circle-left fa-2xl" style="color: #3286e6;"></i></a>
-        <h1>{{ infos['month_text'] }} {{ infos['year'] }}</h1>
-        <a href="/availability?year={{ infos['next_year'] }}&month={{ infos['next_month'] }}"><i class="fa-regular fa-circle-right fa-2xl" style="color: #3286e6;"></i></a>
+        <div class="head">
+            <a href="/availability?year={{ infos['prev_year'] }}&month={{ infos['prev_month'] }}"><i class="fa-regular fa-circle-left fa-2xl" style="color: #3286e6;"></i></a>
+            <h1>{{ infos['month_text'] }} {{ infos['year'] }}</h1>
+            <a href="/availability?year={{ infos['next_year'] }}&month={{ infos['next_month'] }}"><i class="fa-regular fa-circle-right fa-2xl" style="color: #3286e6;"></i></a>
+        </div>
         <form>
             <div class="selector">
                 <label for="month-select">Gehe zu:</label>

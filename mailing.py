@@ -77,8 +77,6 @@ www.ferienwohnung-haidle.de
 
 
 def send_async_email(app: Flask, email: Mail, msg: Message):
-    print("async send")
-    print(msg.body)
     with app.app_context():
         if app.debug:
             print("Sending email: %s" % msg)
@@ -86,7 +84,6 @@ def send_async_email(app: Flask, email: Mail, msg: Message):
 
 
 def getMail(app: Flask) -> Mail:
-    print(os.environ.get('smtp_server') + os.environ.get('smtp_user') + os.environ.get('smtp_password'))
     app.config.update(MAIL_SERVER=os.environ.get('smtp_server'),
                       MAIL_PORT=465, MAIL_USE_SSL=True,
                       MAIL_USERNAME=os.environ.get('smtp_user'),

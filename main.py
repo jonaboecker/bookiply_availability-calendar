@@ -221,10 +221,6 @@ def requestBooking():
             if sendConfirmation:
                 # send submit mail
                 mailing.sendUserNotification(app, b)
-                # msg = Message('Anfrage für Ferienwohnung',)
-                # msg.add_recipient(mail)
-                # msg.body = "Hallo " + firstName + " " + lastName + ",\n\n" + "vielen Dank für Ihre Anfrage für die Ferienwohnung. Wir werden uns schnellstmöglich bei Ihnen melden.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
-                # mail.send(msg)
                 flash('Wir haben Ihnen eine Bestätigungsmail an ' + mail + ' geschickt. '
                       'Bitte auch den Spam-Ordner kontrollieren ;-)', 'success')
     return render_template('requestbooking.html', fa_key=fa_key), 200

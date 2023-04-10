@@ -15,7 +15,7 @@ admin_account = os.environ.get('smtp_user')
 
 
 class Booking:
-    def __init__(self, mail, gender, firstName, lastName, startDate, endDate, adults, children):
+    def __init__(self, mail, gender, firstName, lastName, startDate, endDate, adults, children, message):
         self.mail = mail
         self.gender = gender
         self.firstName = firstName
@@ -25,6 +25,7 @@ class Booking:
         self.adults = adults
         self.children = children
         self.bookDate = datetime.today()
+        self.message = message
 
 
 # ------------------------------------------------------------------------------------------
@@ -55,6 +56,8 @@ Kinder: %s""" % (
         b.adults,
         b.children
     )
+    if b.message != "":
+        s += "\nNachricht: %s" % b.message
     return s
 
 
@@ -141,6 +144,7 @@ def sendUserNotification(app: Flask, b: Booking):
     salutation += b.lastName + ","
 
     msg.body = """%s
+    
 Ihre Buchungsanfrage wurde an uns weitergeleitet. Wir werden uns schnellstmöglich bei Ihnen melden.
     
 Buchung:

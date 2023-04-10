@@ -188,3 +188,8 @@ label {
       width: 100%;
       padding: 0px 5% 0px 0px; }
 }
+
+.message {
+  display: block;
+  align-items: center;
+}

@@ -157,6 +157,7 @@ def requestBooking():
         adults = int(request.form['adults'])
         children = int(request.form['children'])
         sendConfirmation = "confirmation-mail" in request.form
+        message = request.form['message']
 
         # check if datefields are empty otherwise an error occurs in the next step
         if not startDate or not endDate:
@@ -213,7 +214,7 @@ def requestBooking():
                   'Bitte passen Sie Ihre Personenanzahl an.', 'error')
             postValid = False
         if postValid:
-            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children)
+            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message)
             # Handle request
             mailing.sendAdminNotification(app, b)
             flash('Vielen Dank für Ihre Buchungsanfrage! '

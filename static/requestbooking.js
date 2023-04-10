@@ -6,10 +6,12 @@ function hideElem(elem) {
 
 
 function incrementGuests(guestType) {
+  const adults = document.getElementById("adults");
+  const children = document.getElementById("children");
+  const currentGuests = parseInt(adults.value) + parseInt(children.value);
   var guests = document.getElementById(guestType);
-  var currentGuests = parseInt(guests.value);
   if (currentGuests < 4) {
-    guests.value = currentGuests + 1;
+    guests.value = parseInt(guests.value) + 1;
     if (guestType === "children") {
       addAgeDropdown();
     }
@@ -19,7 +21,8 @@ function incrementGuests(guestType) {
 function decrementGuests(guestType) {
   var guests = document.getElementById(guestType);
   var currentGuests = parseInt(guests.value);
-  if (currentGuests > 0) {
+  const adults = parseInt(document.getElementById("adults").value);
+  if (currentGuests > 0 && (adults > 1 || guestType === "children")) {
     guests.value = currentGuests - 1;
     if (guestType === "children") {
       removeAgeDropdown();
@@ -29,35 +32,36 @@ function decrementGuests(guestType) {
 
 function addAgeDropdown() {
   var guests = document.getElementById("guests");
-  var numChildren = document.querySelectorAll('[id^="age-"]').length;
-  if (numChildren < 4) {
+  var numChildren = parseInt(document.getElementById("children").value);
+  console.log(numChildren)
+  if (numChildren <= 3) {
     var label = document.createElement("label");
-    var labelText = document.createTextNode("Kind " + (numChildren + 1) + " Alter: ");
+    var labelText = document.createTextNode("Kind " + (numChildren) + " Alter: ");
     label.appendChild(labelText);
     var select = document.createElement("select");
-    select.name = "age-" + (numChildren + 1);
-    select.id = "age-" + (numChildren + 1);
+    select.name = "age-" + (numChildren);
+    select.id = "age-" + (numChildren);
     var optionDefault = document.createElement("option");
-    optionDefault.value = "";
-    var optionTextDefault = document.createTextNode("");
+    optionDefault.value = "-1";
+    var optionTextDefault = document.createTextNode("wählen Sie bitte ein Alter aus");
     optionDefault.appendChild(optionTextDefault);
     var option1 = document.createElement("option");
     option1.value = "1";
     var optionText1 = document.createTextNode("1 Jahr");
     option1.appendChild(optionText1);
-    var option2 = document.createElement("option");
-    option2.value = "2";
-    var optionText2 = document.createTextNode("2 Jahre");
-    option2.appendChild(optionText2);
-    // weitere Optionen für Alter hinzufügen
     select.appendChild(optionDefault);
     select.appendChild(option1);
-    select.appendChild(option2);
-    // weitere Optionen für Alter hinzufügen
+    for (let i = 2; i <= 17; i++) {
+      let option = document.createElement("option");
+      option.value = i.toString()
+      let optionText = document.createTextNode(i + " Jahre");
+      option.appendChild(optionText);
+      select.appendChild(option);
+    }
     var div = document.createElement("div");
     div.appendChild(label);
     div.appendChild(select);
-    guests.insertBefore(div, guests.lastElementChild);
+    guests.insertBefore(div, guests.lastElementChild.nextSibling);
   }
 }
 
@@ -65,7 +69,7 @@ function addAgeDropdown() {
 function removeAgeDropdown() {
   var guests = document.getElementById("guests");
   var numChildren = parseInt(document.getElementById("children").value);
-  var lastChildAge = document.getElementById("age-" + numChildren);
+  var lastChildAge = document.getElementById("age-" + (numChildren + 1));
   guests.removeChild(lastChildAge.parentElement);
 }
 

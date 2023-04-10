@@ -158,6 +158,10 @@ def requestBooking():
         children = int(request.form['children'])
         sendConfirmation = "confirmation-mail" in request.form
         message = request.form['message']
+        # get children ages
+        childrenAges = []
+        for i in range(1, children + 1):
+            childrenAges.append(int(request.form['age-' + str(i)]))
 
         # check if datefields are empty otherwise an error occurs in the next step
         if not startDate or not endDate:
@@ -213,8 +217,13 @@ def requestBooking():
             flash('Sie können mit maximal drei weiteren Personen anreisen! '
                   'Bitte passen Sie Ihre Personenanzahl an.', 'error')
             postValid = False
+        for i in childrenAges:
+            if i < 0 or i > 17:
+                flash('Bitte geben Sie für jedes Kind ein korrektes Alter an!', 'error')
+                postValid = False
+                break
         if postValid:
-            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message)
+            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges)
             # Handle request
             mailing.sendAdminNotification(app, b)
             flash('Vielen Dank für Ihre Buchungsanfrage! '

@@ -1,9 +1,11 @@
-from flask import Flask, request, render_template, url_for, flash, redirect
+from flask import Flask, request, render_template, flash
 from datetime import datetime, timedelta
 from icalendar import Calendar
 import requests
 import re
 import os
+
+import mailing
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('Flask_Secret_Key_FEWO')
@@ -147,6 +149,7 @@ def requestBooking():
     if request.method == 'POST':
         postValid = True
         mail = request.form['email']
+        gender = request.form['gender']
         firstName = request.form['first-name']
         lastName = request.form['last-name']
         startDate = request.form['start-date']
@@ -163,73 +166,67 @@ def requestBooking():
         endDate = datetime.strptime(endDate, '%Y-%m-%d')
 
         # check if data are valid
-        if not mail or re.fullmatch(r".+@.+\..+", mail):
-            flash('Bitte gebe eine gültige E-Mail-Adresse ein,'
-                  ' über die wir dir deine Buchung bestätigen können', 'error')
+        if not mail:
+            flash('Bitte geben Sie eine gültige E-Mail-Adresse ein,'
+                  ' über die wir eine Buchung bestätigen können', 'error')
             postValid = False
         if not firstName:
-            flash('Bitte gebe deinen Vornamen ein', 'error')
+            flash('Bitte geben Sie Ihren Vornamen ein', 'error')
             postValid = False
         if not lastName:
-            flash('Bitte gebe deinen Nachnamen ein', 'error')
+            flash('Bitte geben Sie Ihren Nachnamen ein', 'error')
             postValid = False
 
         # check dates
         today = datetime.today()
         if (startDate < today.replace(hour=0, minute=0, second=0, microsecond=0)) or \
                 (endDate < today.replace(hour=0, minute=0, second=0, microsecond=0)):
-            flash('Deine Buchungsanfrage liegt in der Vergangenheit. '
-                  'Wir können dir viele Wünsche erfüllen aber leider keine Zeitreisen ermöglichen. '
-                  'Wähle daher einen Buchungszeitraum in der Zukunft aus. ', 'error')
+            flash('Ihre Buchungsanfrage liegt in der Vergangenheit. '
+                  'Wir können viele Wünsche erfüllen aber leider keine Zeitreisen ermöglichen. '
+                  'Wählen Sie einen Buchungszeitraum in der Zukunft aus. ', 'error')
             postValid = False
         elif startDate > endDate:
-            flash('Dein Buchungsende liegt vor deinem Buchungsbeginn. '
-                  'Bitte wähle einen korrekten Zeitraum aus.', 'error')
+            flash('Ihr gewähltes Buchungsende liegt vor dem Buchungsbeginn. '
+                  'Bitte wählen Sie einen korrekten Zeitraum aus.', 'error')
             postValid = False
         elif startDate == endDate:
             flash('Buchungsbeginn und Buchungsende sind am gleichen Tag gewählt. '
-                  'Bitte wähle einen korrekten Zeitraum aus.', 'error')
+                  'Bitte wählen Sie korrekten Zeitraum aus.', 'error')
             postValid = False
-        elif (endDate - startDate).days > 14:
-            flash('Du hast einen Buchungszeitraum von mehr als 14 Tagen gewählt. '
-                  'Bitte wähle einen kürzeren Zeitraum aus.', 'error')
+        # check if start day is a saturday
+        if startDate.weekday() != 5:
+            flash('Wir vermieten nur wochenweise von Samstag - Samstag. '
+                  'Bitte wählen Sie einen Samstag als Buchungsbeginn!', 'error')
             postValid = False
-        elif (endDate - startDate).days < 3:
-            flash('Du hast einen Buchungszeitraum von weniger als 3 Tagen gewählt. '
-                  'Bitte wähle einen längeren Zeitraum aus.', 'error')
+        # check if end day is a saturday
+        if endDate.weekday() != 5:
+            flash('Wir vermieten nur wochenweise von Samstag - Samstag. '
+                  'Bitte wählen Sie einen Samstag als Buchungsende!', 'error')
             postValid = False
 
         # check persons
         if adults + children <= 0:
-            flash('Es musst mit mindestens eine Person anreisen!', 'error')
+            flash('Es musst mindestens eine Person anreisen!', 'error')
             postValid = False
         if adults + children > 4:
-            flash('Du kannst mit maximal drei weiteren Personen anreisen! '
-                  'Bitte passe deine Personenanzahl an.', 'error')
+            flash('Sie können mit maximal drei weiteren Personen anreisen! '
+                  'Bitte passen Sie Ihre Personenanzahl an.', 'error')
             postValid = False
         if postValid:
-            print("Handle request now")
+            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children)
             # Handle request
-            # send submit mail
-            # msg = Message('Anfrage für Ferienwohnung',)
-            # msg.add_recipient(mail)
-            # msg.body = "Hallo " + firstName + " " + lastName + ",\n\n" + "vielen Dank für Ihre Anfrage für die Ferienwohnung. Wir werden uns schnellstmöglich bei Ihnen melden.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
-            # mail.send(msg)
-            # # send admin mail
-            # msg = Message('Anfrage für Ferienwohnung',)
-            # msg.add_recipient(os.environ.get('ADMIN_MAIL'))
-            # msg.body = "Hallo Admin,\n\n" + "es gibt eine neue Anfrage für die Ferienwohnung. Bitte prüfen Sie die Anfrage und melden Sie sich bei dem Gast.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
-            # mail.send(msg)
-            flash('Vielen Dank für deine Buchungsanfrage! '
-                  'Wir haben diese erhalten und melden uns schnellstmöglich bei dir.', 'success')
+            mailing.sendAdminNotification(app, b)
+            flash('Vielen Dank für Ihre Buchungsanfrage! '
+                  'Wir haben diese erhalten und melden uns schnellstmöglich bei Ihnen.', 'success')
             if sendConfirmation:
                 # send submit mail
+                mailing.sendUserNotification(app, b)
                 # msg = Message('Anfrage für Ferienwohnung',)
                 # msg.add_recipient(mail)
                 # msg.body = "Hallo " + firstName + " " + lastName + ",\n\n" + "vielen Dank für Ihre Anfrage für die Ferienwohnung. Wir werden uns schnellstmöglich bei Ihnen melden.\n\n" + "Mit freundlichen Grüßen\n\n" + "Familie Schröder"
                 # mail.send(msg)
-                flash('Wir haben dir eine Bestätigungsmail an ' + mail + ' geschickt. '
-                      'Kontrolliere auch deinen Spam-Ordner ;-)', 'success')
+                flash('Wir haben Ihnen eine Bestätigungsmail an ' + mail + ' geschickt. '
+                      'Bitte auch den Spam-Ordner kontrollieren ;-)', 'success')
     return render_template('requestbooking.html', fa_key=fa_key), 200
 
 
@@ -254,6 +251,7 @@ def page_not_found(e):
 
 @app.route('/')
 def index():
+    print(app.secret_key)
     return 'Welcome to Availability checker for holiday apartment Haidle.' \
            'Please visit us on ferienwohnung-haidle.de', 200
 

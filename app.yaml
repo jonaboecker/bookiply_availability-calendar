@@ -4,6 +4,9 @@ env_variables:
   BOOKIPLY_API_Key: $BOOKIPLY_API_KEY
   fa_API_KEY: $FA_API_KEY
   Flask_Secret_Key_FEWO: $Flask_Secret_Key_FEWO
+  smtp_server: $smtp_server
+  smtp_user: $smtp_user
+  smtp_password: $smtp_password
 
 handlers:
 - url: /static

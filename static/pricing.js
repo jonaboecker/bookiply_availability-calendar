@@ -17,13 +17,11 @@ function price() {
     }
     const startDate = new Date(document.getElementById("start-date").value);
     const endDate = new Date(document.getElementById("end-date").value);
-    console.log(startDate)
     const days = (endDate - startDate) / (1000 * 60 * 60 * 24);
     if (days <= 0 || days % 7 !== 0) {
         hideElem('pricing');
         return;
     }
-    console.log(childrenAges)
     for (let i = 0; i <= children; i++) {
         if (childrenAges[i] === "-1") {
             hideElem('pricing');
@@ -47,7 +45,6 @@ function price() {
             p_flat += person * weeks;
         }
         taxAmount += touristTax * 7 * weeks - touristTax;
-        console.log(taxAmount)
     }
     for (let i = 0; i < children; i++) {
         if (childrenAges[i] < 3) {
@@ -61,10 +58,8 @@ function price() {
         }
         if(childrenAges[i] > 16) {
             taxAmount += touristTax * 7 * weeks - touristTax;
-            console.log(taxAmount)
         } else if (childrenAges[i] > 6) {
             taxAmount += touristTaxChildren * 7 * weeks - touristTaxChildren;
-            console.log(taxAmount)
         }
     }
     let elem_p_days = document.getElementById('p_days');

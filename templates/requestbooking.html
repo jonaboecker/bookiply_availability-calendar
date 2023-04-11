@@ -82,6 +82,8 @@
             <p>Kurtaxe: <span id="p_tourist-tax" class="text-bold"></span>€</p>
             <p>Gesamtbetrag: <span id="p_total" class="text-bold"></span>€</p>
         </div>
+        <input type="hidden" name="price-flat" id="price-flat" value="{{ request.form['price-flat'] }}">
+        <input type="hidden" name="price-tax" id="price-tax" value="{{ request.form['price-tax'] }}">
     </form>
 
 </body>

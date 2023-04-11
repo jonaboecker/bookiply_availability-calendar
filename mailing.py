@@ -15,7 +15,7 @@ admin_account = os.environ.get('smtp_user')
 
 
 class Booking:
-    def __init__(self, mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges):
+    def __init__(self, mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges, price):
         self.mail = mail
         self.gender = gender
         self.firstName = firstName
@@ -27,6 +27,7 @@ class Booking:
         self.bookDate = datetime.today()
         self.message = message
         self.childrenAges = childrenAges
+        self.price = price
 
 
 # ------------------------------------------------------------------------------------------
@@ -63,6 +64,7 @@ Kinder: %s""" % (
             s += "%s " % age
     if b.message != "":
         s += "\nNachricht: \"%s\"" % b.message
+    s += "\n" % b.price
     return s
 
 

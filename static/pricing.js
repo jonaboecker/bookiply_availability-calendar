@@ -60,8 +60,12 @@ function price() {
     let elem_p_flat = document.getElementById('p_flat');
     let elem_p_tourist_tax = document.getElementById('p_tourist-tax');
     let elem_p_total = document.getElementById('p_total');
+    let input_p_flat = document.getElementById('price-flat');
+    let input_p_tax = document.getElementById('price-tax');
     elem_p_days.textContent = String(days);
     elem_p_flat.textContent = String(p_flat);
     elem_p_tourist_tax.textContent = String(taxAmount);
     elem_p_total.textContent = String(p_flat + taxAmount);
+    input_p_flat.value = String(p_flat);
+    input_p_tax.value = String(taxAmount);
 }

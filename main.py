@@ -162,6 +162,12 @@ def checkIfFlatIsAvailable(startDate, endDate):
     return True
 
 
+def priceText(price_flat, price_tax, days):
+    return "Der voraussichtliche Preis für: " + str(days) + " Tage: " + str(price_flat) + "€\nKurtaxe: " \
+        + str(price_tax) + "€\nGesamtpreis: " + str(price_flat + price_tax) + "€"
+
+
+
 @app.route('/requestbooking', methods=['GET', 'POST'])
 def requestBooking():
     if request.method == 'POST':
@@ -176,6 +182,8 @@ def requestBooking():
         children = int(request.form['children'])
         sendConfirmation = "confirmation-mail" in request.form
         message = request.form['message']
+        price_flat = request.form['price-flat']
+        price_tax = request.form['price-tax']
         # get children ages
         childrenAges = []
         for i in range(1, children + 1):
@@ -187,7 +195,6 @@ def requestBooking():
             return render_template('requestbooking.html', fa_key=fa_key), 200
         startDate = datetime.strptime(startDate, '%Y-%m-%d')
         endDate = datetime.strptime(endDate, '%Y-%m-%d')
-
         # check if data are valid
         if not mail:
             flash('Bitte geben Sie eine gültige E-Mail-Adresse ein,'
@@ -245,8 +252,9 @@ def requestBooking():
                 flash('Bitte geben Sie für jedes Kind ein korrektes Alter an!', 'error')
                 postValid = False
                 break
+        price = priceText(price_flat, price_tax, (endDate - startDate).days)
         if postValid:
-            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges)
+            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges, price)
             # Handle request
             mailing.sendAdminNotification(app, b)
             flash('Vielen Dank für Ihre Buchungsanfrage! '
@@ -280,7 +288,6 @@ def page_not_found(e):
 
 @app.route('/')
 def index():
-    print(app.secret_key)
     return 'Welcome to Availability checker for holiday apartment Haidle.' \
            'Please visit us on ferienwohnung-haidle.de', 200
 

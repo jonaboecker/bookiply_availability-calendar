@@ -64,7 +64,7 @@ Kinder: %s""" % (
             s += "%s " % age
     if b.message != "":
         s += "\nNachricht: \"%s\"" % b.message
-    s += "\n" + b.price
+    s += "\n\n" + b.price
     return s
 
 

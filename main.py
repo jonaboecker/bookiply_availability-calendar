@@ -163,9 +163,8 @@ def checkIfFlatIsAvailable(startDate, endDate):
 
 
 def priceText(price_flat, price_tax, days):
-    return "Der voraussichtliche Preis für: " + str(days) + " Tage: " + str(price_flat) + "€\nKurtaxe: " \
+    return "Der voraussichtliche Preis für " + str(days) + " Tage: " + str(price_flat) + "€\nKurtaxe: " \
         + str(price_tax) + "€\nGesamtpreis: " + str(float(price_flat) + float(price_tax)) + "€"
-
 
 
 @app.route('/requestbooking', methods=['GET', 'POST'])
@@ -253,7 +252,6 @@ def requestBooking():
                 postValid = False
                 break
         price = priceText(price_flat, price_tax, (endDate - startDate).days)
-        print(price)
         if postValid:
             b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges, price)
             # Handle request

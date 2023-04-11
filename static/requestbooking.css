@@ -194,7 +194,7 @@ label {
     display: flex;
     flex-direction: column; }
     .form-2-col .row {
-      width: 100%;
+      width: 99%;
       padding: 0px 5% 0px 0px; }
 }
 

@@ -33,7 +33,6 @@ function decrementGuests(guestType) {
 function addAgeDropdown() {
   var guests = document.getElementById("guests");
   var numChildren = parseInt(document.getElementById("children").value);
-  console.log(numChildren)
   if (numChildren <= 3) {
     var label = document.createElement("label");
     var labelText = document.createTextNode("Kind " + (numChildren) + " Alter: ");

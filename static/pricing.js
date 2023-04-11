@@ -22,12 +22,6 @@ function price() {
         hideElem('pricing');
         return;
     }
-    for (let i = 0; i <= children; i++) {
-        if (childrenAges[i] === "-1") {
-            hideElem('pricing');
-            return;
-        }
-    }
     if (startDate === "Invalid Date" || endDate === "Invalid Date") {
         hideElem('pricing');
         return;

@@ -3,8 +3,6 @@ function hideElem(elem) {
   box.style.display = 'none';
 }
 
-
-
 function incrementGuests(guestType) {
   const adults = document.getElementById("adults");
   const children = document.getElementById("children");
@@ -16,6 +14,7 @@ function incrementGuests(guestType) {
       addAgeDropdown();
     }
   }
+  price();
 }
 
 function decrementGuests(guestType) {
@@ -28,6 +27,7 @@ function decrementGuests(guestType) {
       removeAgeDropdown();
     }
   }
+  price();
 }
 
 function addAgeDropdown() {
@@ -41,6 +41,7 @@ function addAgeDropdown() {
     var select = document.createElement("select");
     select.name = "age-" + (numChildren);
     select.id = "age-" + (numChildren);
+    select.onchange = function() {price()}
     var optionDefault = document.createElement("option");
     optionDefault.value = "-1";
     var optionTextDefault = document.createTextNode("wählen Sie bitte ein Alter aus");

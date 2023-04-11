@@ -6,6 +6,7 @@
     <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='requestbooking.css') }}">
     <script src="{{url_for('static', filename='requestbooking.js')}}"></script>
+    <script src="{{url_for('static', filename='pricing.js')}}"></script>
     <style>
         .error {
             padding: 20px;
@@ -49,10 +50,10 @@
             <div class="row mb-10">
                 <h3>Buchung:</h3>
                 <label for="start-date">Anreisedatum:</label>
-                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}" required><br>
+                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}" onchange="price()" required><br>
 
                 <label for="end-date">Abreisedatum:</label>
-                <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}" required>
+                <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}" onchange="price()" required>
 
                 <div id="guests">
                     <div class="guest-type">
@@ -76,6 +77,11 @@
         </div>
         <textarea style="display: block; width: 95%;" id="message" name="message" rows="5" maxlength="1000" placeholder="Sie möchten uns noch etwas Mitteilen?">{{ request.form['message'] }}</textarea>
         <button class="btn-prim" type="submit">Buchung anfragen</button>
+        <div id="pricing" style="display:none;" class="mt-10">
+            <p>Der voraussichtliche Preis für: <span id="p_days" class="text-bold"></span> Tage: <span id="p_flat" class="text-bold"></span>€</p>
+            <p>Kurtaxe: <span id="p_tourist-tax" class="text-bold"></span>€</p>
+            <p>Gesamtbetrag: <span id="p_total" class="text-bold"></span>€</p>
+        </div>
     </form>
 
 </body>

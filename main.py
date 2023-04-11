@@ -17,13 +17,16 @@ fa_key = os.environ.get('fa_API_KEY')
 booked_dates = []
 
 
-def get_month_data(year, month):
-    # Get iCal File
+def getICALCalendar():
     response = requests.get(BOOKIPY_URL)
     content = response.text
-
-    # Verarbeiten Sie den Inhalt der iCal-Datei
     cal = Calendar.from_ical(content)
+    return cal
+
+
+def get_month_data(year, month):
+    # Verarbeiten Sie den Inhalt der iCal-Datei
+    cal = getICALCalendar()
     global booked_dates
     booked_dates = []
 
@@ -144,6 +147,21 @@ def get_Infos(month, year):
     return infos
 
 
+def checkIfFlatIsAvailable(startDate, endDate):
+    cal = getICALCalendar()
+    # iterate through all events in requested period
+    for event in cal.walk('VEVENT'):
+        start = datetime.strptime(str(event.get('DTSTART').dt), '%Y-%m-%d')
+        end = datetime.strptime(str(event.get('DTEND').dt), '%Y-%m-%d')
+        if start < startDate < end:
+            return False
+        if start < endDate < end:
+            return False
+        if startDate <= start and endDate >= end:
+            return False
+    return True
+
+
 @app.route('/requestbooking', methods=['GET', 'POST'])
 def requestBooking():
     if request.method == 'POST':
@@ -199,14 +217,19 @@ def requestBooking():
                   'Bitte wählen Sie korrekten Zeitraum aus.', 'error')
             postValid = False
         # check if start day is a saturday
-        if startDate.weekday() != 5:
+        elif startDate.weekday() != 5:
             flash('Wir vermieten nur wochenweise von Samstag - Samstag. '
                   'Bitte wählen Sie einen Samstag als Buchungsbeginn!', 'error')
             postValid = False
         # check if end day is a saturday
-        if endDate.weekday() != 5:
+        elif endDate.weekday() != 5:
             flash('Wir vermieten nur wochenweise von Samstag - Samstag. '
                   'Bitte wählen Sie einen Samstag als Buchungsende!', 'error')
+            postValid = False
+        # check if flat is already booked
+        elif not checkIfFlatIsAvailable(startDate, endDate):
+            flash('Die Wohnung ist im von Ihnen gewählte Zeit ist leider bereits gebucht. '
+                  'Bitte wählen Sie einen anderen Zeitraum aus.', 'error')
             postValid = False
 
         # check persons

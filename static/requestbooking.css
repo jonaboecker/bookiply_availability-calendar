@@ -24,10 +24,7 @@ h3 {
   font-family: "Local Poppins", Arial, Helvetica, sans-serif;
   color: #3286e6;
   border-bottom: 1px solid #3286e6;
-  margin-top: 0px;
-  margin-right: 0px;
-  margin-bottom: 20px;
-  margin-left: 0px;
+  margin: 0px 0px 10px;
   font-size: 16px;
   line-height: 1.41; }
 
@@ -141,7 +138,7 @@ h3 {
 input[type="text"], input[type="email"], input[type="date"], select {
   padding: 7px 10px;
   margin: 7px auto;
-  border-radius: 0px;
+  border-radius: 0;
   border: 1px solid #636363;
   font-size: 15px;
   width: 80%;
@@ -151,7 +148,7 @@ select, input[type="date"] {
   width: auto;
   padding: 3px 10px;
   min-width: 100px;
-  margin: 0px auto;
+  margin: 4px auto;
 }
 
 select {
@@ -169,7 +166,7 @@ input[type="number"] {
 }
 
 label {
-  padding: 7px 10px;
+  padding: 0px 10px;
   font-size: 15px; }
 
 #guests {

@@ -31,7 +31,7 @@
     {% endfor %}
 	<form method="POST">
         <div class="form-2-col">
-            <div class="row mb-20">
+            <div class="row mb-10">
                 <h3>Kontaktdaten:</h3>
                 <div>
                     <input type="radio" name="gender" value="Frau" id="frau" {% if request.form['gender'] == 'Frau' %} checked {% endif %} required><label for="frau">Frau</label>
@@ -41,15 +41,15 @@
                 <input type="text" id="email" name="email" placeholder="E-Mail-Adresse" value="{{ request.form['email'] }}" required>
                 <input type="text" id="first-name" name="first-name" placeholder="Vorname" value="{{ request.form['first-name'] }}" required>
                 <input type="text" id="last-name" name="last-name" placeholder="Nachname" value="{{ request.form['last-name'] }}" required>
-                <div class="mt-10">
+                <div>
                     <input type="checkbox" id="confirmation-mail" name="confirmation-mail" checked>
                     <label for="confirmation-mail">Ich möchte eine Bestätigungsmail erhalten</label>
                 </div>
             </div>
-            <div class="row mb-20">
+            <div class="row mb-10">
                 <h3>Buchung:</h3>
                 <label for="start-date">Anreisedatum:</label>
-                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}" required><br><br>
+                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}" required><br>
 
                 <label for="end-date">Abreisedatum:</label>
                 <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}" required>

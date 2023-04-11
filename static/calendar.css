@@ -37,8 +37,8 @@ span, label, p, ul, a, h1, h2, h3 {
             margin: 0 40px; /* füge eine margin hinzu */
         }
         div {
-          margin-top: 20px;
-          margin-bottom: 20px;
+          margin-top: 12px;
+          margin-bottom: 12px;
         }
         div .selector {
             text-align: center;

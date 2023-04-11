@@ -38,7 +38,7 @@ function price() {
     box.style.display = 'block';
     const currentGuests = parseInt(adults.value) + parseInt(children.value);
     let p_flat = 0;
-    let p_tourist_tax = 0;
+    let taxAmount = 0;
     let weeks = days / 7;
     for (let i = 1; i <= adults; i++) {
         if(i <= 2) {
@@ -46,7 +46,8 @@ function price() {
         } else {
             p_flat += person * weeks;
         }
-        p_tourist_tax += touristTax * 7 * weeks;
+        taxAmount += touristTax * 7 * weeks - touristTax;
+        console.log(taxAmount)
     }
     for (let i = 0; i < children; i++) {
         if (childrenAges[i] < 3) {
@@ -58,10 +59,12 @@ function price() {
         } else {
             p_flat += person * weeks;
         }
-        if(childrenAges[i] <= 16) {
-            p_tourist_tax += touristTaxChildren * 7 * weeks;
-        } else {
-            p_tourist_tax += touristTax * 7 * weeks;
+        if(childrenAges[i] > 16) {
+            taxAmount += touristTax * 7 * weeks - touristTax;
+            console.log(taxAmount)
+        } else if (childrenAges[i] > 6) {
+            taxAmount += touristTaxChildren * 7 * weeks - touristTaxChildren;
+            console.log(taxAmount)
         }
     }
     let elem_p_days = document.getElementById('p_days');
@@ -70,6 +73,6 @@ function price() {
     let elem_p_total = document.getElementById('p_total');
     elem_p_days.textContent = String(days);
     elem_p_flat.textContent = String(p_flat);
-    elem_p_tourist_tax.textContent = String(p_tourist_tax);
-    elem_p_total.textContent = String(p_flat + p_tourist_tax);
+    elem_p_tourist_tax.textContent = String(taxAmount);
+    elem_p_total.textContent = String(p_flat + taxAmount);
 }

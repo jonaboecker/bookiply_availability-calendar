@@ -144,8 +144,10 @@ def sendUserNotification(app: Flask, b: Booking):
     salutation = ""
     if b.gender == "Herr":
         salutation += "Sehr geehrter Herr "
-    else:
+    elif b.gender == "Frau":
         salutation += "Sehr geehrte Frau "
+    else:
+        salutation += "Guten Tag " + b.firstName + " "
     salutation += b.lastName + ","
 
     msg.body = """%s

@@ -34,9 +34,9 @@
             <div class="row mb-20">
                 <h3>Kontaktdaten:</h3>
                 <div>
-                    <input type="radio" name="gender" value="Frau" id="frau" required><label for="frau">Frau</label>
-                    <input type="radio" name="gender" value="Herr" id="herr" required><label for="herr">Herr</label>
-                    <input type="radio" name="gender" value="Divers" id="divers" required><label for="divers">Divers</label>
+                    <input type="radio" name="gender" value="Frau" id="frau" {% if request.form['gender'] == 'Frau' %} checked {% endif %} required><label for="frau">Frau</label>
+                    <input type="radio" name="gender" value="Herr" id="herr" {% if request.form['gender'] == 'Herr' %} checked {% endif %} required><label for="herr">Herr</label>
+                    <input type="radio" name="gender" value="Divers" id="divers" {% if request.form['gender'] == 'Divers' %} checked {% endif %} required><label for="divers">Divers</label>
                 </div>
                 <input type="text" id="email" name="email" placeholder="E-Mail-Adresse" value="{{ request.form['email'] }}" required>
                 <input type="text" id="first-name" name="first-name" placeholder="Vorname" value="{{ request.form['first-name'] }}" required>

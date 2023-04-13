@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash
+from flask import Flask, request, render_template, flash, redirect, url_for
 from datetime import datetime, timedelta
 from icalendar import Calendar
 import requests
@@ -255,7 +255,10 @@ def requestBooking():
         if data_protection is False:
             flash('Bitte bestätigen Sie die Datenschutzerklärung!', 'error')
             postValid = False
-        price = priceText(price_flat, price_tax, (endDate - startDate).days)
+        if not price_flat or not price_tax:
+            price = "Der voraussichtliche Preis konnte leider nicht ermittelt werden."
+        else:
+            price = priceText(price_flat, price_tax, (endDate - startDate).days)
         if postValid:
             b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges, price)
             # Handle request
@@ -267,6 +270,7 @@ def requestBooking():
                 mailing.sendUserNotification(app, b)
                 flash('Wir haben Ihnen eine Bestätigungsmail an ' + mail + ' geschickt. '
                       'Bitte auch den Spam-Ordner kontrollieren ;-)', 'success')
+            return redirect(url_for('requestBooking'))  # redirect to clear request data
     return render_template('requestbooking.html', fa_key=fa_key), 200
 
 

@@ -76,6 +76,11 @@
             </div>
         </div>
         <textarea style="display: block; width: 95%;" id="message" name="message" rows="5" maxlength="1000" placeholder="Sie möchten uns noch etwas Mitteilen?">{{ request.form['message'] }}</textarea>
+        <div class="mt-10">
+            <input type="checkbox" id="data-protection" name="data-protection" required>
+            <label for="data-protection">Ich erkläre mich mit der Verarbeitung meiner personenbezogenen Daten einverstanden
+                <a style="color: blue" onclick="showElem('data-protection-text')">(Hinweise zur Datenverarbeitung einblenden)</a></label>
+        </div>
         <button class="btn-prim" type="submit">Buchung anfragen</button>
         <div id="pricing" style="display:none;" class="mt-10">
             <p>Der voraussichtliche Preis für: <span id="p_days" class="text-bold"></span> Tage: <span id="p_flat" class="text-bold"></span>€</p>
@@ -85,6 +90,19 @@
         <input type="hidden" name="price-flat" id="price-flat" value="{{ request.form['price-flat'] }}">
         <input type="hidden" name="price-tax" id="price-tax" value="{{ request.form['price-tax'] }}">
     </form>
-
+    <div id="data-protection-text" style="display:none;" class="mt-10">
+        <h3>Hinweise zur Datenverarbeitung</h3>
+        <span>Mit dem Absenden dieses Kontaktformulars erklären Sie sich damit einverstanden, dass wir Ihre
+            personenbezogenen Daten (Anrede, Name, E-Mail-Adresse, Anzahl der Gäste und Alter der mitreisenden Kinder)
+            für die Bearbeitung Ihrer Buchungsanfrage sowie für mögliche Rückfragen nutzen dürfen.<br>
+            Die Verarbeitung Ihrer Daten erfolgt gemäß den datenschutzrechtlichen Bestimmungen.
+            Ihre Daten werden ausschließlich für die oben genannten Zwecke verwendet und nicht an Dritte weitergegeben.
+            Nach Abschluss der Bearbeitung Ihrer Anfrage bzw. nach Ihrem Aufenthalt werden Ihre Daten gelöscht,
+            sofern keine gesetzlichen Aufbewahrungspflichten bestehen.<br>
+            Sie haben jederzeit das Recht auf Auskunft, Berichtigung und Löschung Ihrer personenbezogenen Daten.
+            Bitte wenden Sie sich hierfür an <a style="font-size: 12px;" href="mailto:service@ferienwohnung-haidle.de">Johanna Haidle, service@ferienwohnung-haidle.de</a>.
+            Durch das Abschicken des Formulars erklären Sie sich mit der Verarbeitung Ihrer personenbezogenen Daten
+            im Rahmen dieser Datenschutzerklärung einverstanden.</span>
+    </div>
 </body>
 </html>

@@ -3,6 +3,11 @@ function hideElem(elem) {
   box.style.display = 'none';
 }
 
+function showElem(elem) {
+  const box = document.getElementById(elem);
+  box.style.display = 'block';
+}
+
 function incrementGuests(guestType) {
   const adults = document.getElementById("adults");
   const children = document.getElementById("children");

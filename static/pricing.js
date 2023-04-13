@@ -26,8 +26,7 @@ function price() {
         hideElem('pricing');
         return;
     }
-    const box = document.getElementById('pricing');
-    box.style.display = 'block';
+    showElem('pricing')
     const currentGuests = parseInt(adults.value) + parseInt(children.value);
     let p_flat = 0;
     let taxAmount = 0;

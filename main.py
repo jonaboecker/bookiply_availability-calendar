@@ -181,6 +181,7 @@ def requestBooking():
         children = int(request.form['children'])
         sendConfirmation = "confirmation-mail" in request.form
         message = request.form['message']
+        data_protection = "data-protection" in request.form
         price_flat = request.form['price-flat']
         price_tax = request.form['price-tax']
         # get children ages
@@ -251,6 +252,9 @@ def requestBooking():
                 flash('Bitte geben Sie für jedes Kind ein korrektes Alter an!', 'error')
                 postValid = False
                 break
+        if data_protection is False:
+            flash('Bitte bestätigen Sie die Datenschutzerklärung!', 'error')
+            postValid = False
         price = priceText(price_flat, price_tax, (endDate - startDate).days)
         if postValid:
             b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges, price)

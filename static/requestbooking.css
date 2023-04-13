@@ -6,6 +6,10 @@ span, label, p, ul, a, h1, h2, h3 {
   font-family: "Local Open sans", Arial, Helvetica, sans-serif;
   font-size: 15px; }
 
+span {
+  font-size: 12px;
+}
+
 h1 {
   font-family: "Local Poppins", Arial, Helvetica, sans-serif;
   color: #3286e6;

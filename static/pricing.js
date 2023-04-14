@@ -9,24 +9,23 @@ function price() {
     const touristTax = 2.5;
     const touristTaxChildren = 1.3;
 
+    const startDate = new Date(document.getElementById("start-date").value);
+    const endDate = new Date(document.getElementById("end-date").value);
+    const days = (endDate - startDate) / (1000 * 60 * 60 * 24);
+    if (days <= 0 || days % 7 !== 0) {
+        hideElem('pricing');
+        showElem('pricing-preview')
+    } else {
+        showElem('pricing')
+        hideElem('pricing-preview')
+    }
+
     const adults = parseInt(document.getElementById("adults").value);
     const children = parseInt(document.getElementById("children").value);
     let childrenAges = [children];
     for (let i = 1; i <= children; i++) {
         childrenAges[i - 1] = document.getElementById("age-" + i).value;
     }
-    const startDate = new Date(document.getElementById("start-date").value);
-    const endDate = new Date(document.getElementById("end-date").value);
-    const days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-    if (days <= 0 || days % 7 !== 0) {
-        hideElem('pricing');
-        return;
-    }
-    if (startDate === "Invalid Date" || endDate === "Invalid Date") {
-        hideElem('pricing');
-        return;
-    }
-    showElem('pricing')
     const currentGuests = parseInt(adults.value) + parseInt(children.value);
     let p_flat = 0;
     let taxAmount = 0;

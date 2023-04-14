@@ -42,8 +42,13 @@ h3 {
 .text-small {
   font-size: 14px; }
 
+.text-normal {
+  font-size: 15px;
+}
+
 .text-bold {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .bg-sec {
   background-color: #f29201; }

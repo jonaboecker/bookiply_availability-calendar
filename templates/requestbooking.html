@@ -60,7 +60,7 @@
                         <label for="adults">Erwachsene:</label>
                         <div class="guest-selector">
                             <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('adults')"></i>
-                            <input type="number" id="adults" name="adults" value=1 readonly>
+                            <input type="number" id="adults" name="adults" value={% if request.form['adults'] %} {{ request.form['adults'] }} {% endif %} 1 readonly>
                             <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('adults')"></i>
                         </div>
                     </div>

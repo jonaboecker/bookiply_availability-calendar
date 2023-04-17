@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Index{% endblock %}
+{% block stylesheets %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='requestBooking.css') }}">
+{% endblock %}
+{% block content %}
+    <h3>Ferienwohnung-Haidle Buchungsportal</h3>
+    <ul>
+        <li><a href="https://ferienwohnung-haidle.de">Zur Homepage</a></li>
+        <li><a href="https://book.ferienwohnung-haidle.de/availability">Zum Verfügbarkeitskalender</a></li>
+        <li><a href="https://book.ferienwohnung-haidle.de/requestbooking">Buchung anfragen</a></li>
+    </ul>
+{% endblock %}

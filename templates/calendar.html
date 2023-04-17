@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Belegungsanzeige Ferienwohnung Haidle</title>
+{% extends "base.html" %}
+{% block title %}Belegungsanzeige Ferienwohnung Haidle{% endblock %}
+{% block stylesheets %}
     <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='calendar.css') }}">
-</head>
-<body>
+{% endblock %}
+{% block content %}
     <div>
         <div class="head">
             <a href="/availability?year={{ infos['prev_year'] }}&month={{ infos['prev_month'] }}"><i class="fa-regular fa-circle-left fa-2xl" style="color: #3286e6;"></i></a>
@@ -70,5 +68,4 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

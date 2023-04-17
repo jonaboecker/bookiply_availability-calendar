@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Buchungsanfrage Ferienwohnung Haidle</title>
-    <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
+{% extends "base.html" %}
+{% block title %}Buchungsanfrage Ferienwohnung Haidle{% endblock %}
+{% block stylesheets %}
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='requestbooking.css') }}">
-    <script src="{{url_for('static', filename='requestbooking.js')}}"></script>
-    <script src="{{url_for('static', filename='pricing.js')}}"></script>
     <style>
         .error {
             padding: 20px;
@@ -21,9 +16,13 @@
             background-color: rgba(142, 238, 105, 0.85);
         }
     </style>
-
-</head>
-<body>
+{% endblock %}
+{% block scripts %}
+    <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/requestbooking.js')}}"></script>
+    <script src="{{url_for('static', filename='js/pricing.js')}}"></script>
+{% endblock %}
+{% block content %}
     {% for category, message in get_flashed_messages(with_categories=true) %}
         <div class="{{ category }}" id="{{ message }}" >
             {{ message }}
@@ -107,5 +106,4 @@
             Durch das Abschicken des Formulars erklären Sie sich mit der Verarbeitung Ihrer personenbezogenen Daten
             im Rahmen dieser Datenschutzerklärung einverstanden.</span>
     </div>
-</body>
-</html>
+{% endblock %}

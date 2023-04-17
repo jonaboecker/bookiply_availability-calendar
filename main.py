@@ -295,8 +295,7 @@ def page_not_found(e):
 
 @app.route('/')
 def index():
-    return 'Welcome to Availability checker for holiday apartment Haidle.' \
-           'Please visit us on ferienwohnung-haidle.de', 200
+    return render_template('index.html'), 200
 
 
 if __name__ == '__main__':

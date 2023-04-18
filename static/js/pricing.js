@@ -36,7 +36,7 @@ function price() {
         } else {
             p_flat += person * weeks;
         }
-        taxAmount += touristTax * 7 * weeks - touristTax;
+        taxAmount += touristTax * 7 * weeks;
     }
     for (let i = 0; i < children; i++) {
         if (childrenAges[i] < 3) {
@@ -49,9 +49,9 @@ function price() {
             p_flat += person * weeks;
         }
         if(childrenAges[i] > 16) {
-            taxAmount += touristTax * 7 * weeks - touristTax;
+            taxAmount += touristTax * 7 * weeks;
         } else if (childrenAges[i] > 6) {
-            taxAmount += touristTaxChildren * 7 * weeks - touristTaxChildren;
+            taxAmount += touristTaxChildren * 7 * weeks;
         }
     }
     let elem_p_days = document.getElementById('p_days');

@@ -1,4 +1,4 @@
-runtime: python39
+runtime: python311
 
 env_variables:
   BOOKIPLY_API_Key: $BOOKIPLY_API_KEY

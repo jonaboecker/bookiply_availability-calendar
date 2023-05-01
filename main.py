@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, flash, redirect, url_for
 from datetime import datetime, timedelta
 from icalendar import Calendar
 import google.cloud.logging
+import logging
 import requests
 import re
 import os
@@ -17,15 +18,9 @@ fa_key = os.environ.get('fa_API_KEY')
 # used in get_month_data (read and write) and calculate_monthStartDays (write)
 booked_dates = []
 
-logClient = None
-
-
-def logger():
-    global logClient
-    if not app.debug and not logClient:
-        logClient = google.cloud.logging.Client()
-        logClient.setup_logging()
-    return app.logger
+# if not app.debug:
+#     logClient = google.cloud.logging.Client()
+#     logClient.setup_logging()
 
 
 def getICALCalendar():

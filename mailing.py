@@ -3,6 +3,7 @@
 #
 
 import os
+import logging
 from flask import Flask
 from flask_mail import Mail, Message  # type: ignore
 from threading import Thread
@@ -91,7 +92,7 @@ def send_async_email(app: Flask, email: Mail, msg: Message):
         if app.debug:
             print("Sending email: %s" % msg)
         email.send(msg)
-        app.logger.info("Sent email to %s with text %s" % (msg.recipients, msg.body))
+        logging.info("Sent email to %s with text %s" % (msg.recipients, msg.body))
 
 
 def getMail(app: Flask) -> Mail:

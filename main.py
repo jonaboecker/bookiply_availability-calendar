@@ -12,11 +12,14 @@ import mailing
 app = Flask(__name__)
 app.secret_key = os.environ.get('Flask_Secret_Key_FEWO')
 
+logging.basicConfig(level=logging.INFO)
+
 BOOKIPY_URL = 'https://api.bookiply.com/pmc/rest/apartments/43146778/ical.ics?key=' + os.environ.get('BOOKIPLY_API_Key')
 fa_key = os.environ.get('fa_API_KEY')
 # booked_dates may could occur errors, if two requests at same time?!
 # used in get_month_data (read and write) and calculate_monthStartDays (write)
 booked_dates = []
+
 
 # if not app.debug:
 #     logClient = google.cloud.logging.Client()
@@ -266,7 +269,8 @@ def requestBooking():
         else:
             price = priceText(price_flat, price_tax, (endDate - startDate).days)
         if postValid:
-            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message, childrenAges, price)
+            b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message,
+                                childrenAges, price)
             # Handle request
             mailing.sendAdminNotification(app, b)
             flash('Vielen Dank für Ihre Buchungsanfrage! '
@@ -275,7 +279,8 @@ def requestBooking():
                 # send submit mail
                 mailing.sendUserNotification(app, b)
                 flash('Wir haben Ihnen eine Bestätigungsmail an ' + mail + ' geschickt. '
-                      'Bitte auch den Spam-Ordner kontrollieren ;-)', 'success')
+                                                                           'Bitte auch den Spam-Ordner kontrollieren ;-)',
+                      'success')
             return redirect(url_for('requestBooking'))  # redirect to clear request data
     return render_template('requestbooking.html', fa_key=fa_key), 200
 

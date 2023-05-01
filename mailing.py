@@ -91,6 +91,7 @@ def send_async_email(app: Flask, email: Mail, msg: Message):
         if app.debug:
             print("Sending email: %s" % msg)
         email.send(msg)
+        app.logger.info("Sent email to %s with text %s" % (msg.recipients, msg.body))
 
 
 def getMail(app: Flask) -> Mail:
@@ -109,8 +110,8 @@ def sendAdminNotification(app: Flask, b: Booking):
     # no admin notifications when in the testing app
     recipient = admin_account
     # for system testing don't send mails to the admin
-    if b.mail is 'jona.boecker@web.de':
-        recipient = 'jona.boecker@web.de'
+    if b.mail == "jona.boecker@web.de":
+        recipient = "jona.boecker@web.de"
     email = getMail(app)
     msg = Message(
         "Benachrichtigung über Buchungsanfrage von " + b.firstName + " " + b.lastName, recipients=[recipient]

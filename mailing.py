@@ -107,12 +107,13 @@ def getMail(app: Flask) -> Mail:
 
 def sendAdminNotification(app: Flask, b: Booking):
     # no admin notifications when in the testing app
-    if app.debug:
-        print("debug send Mail")
-        return
+    recipient = admin_account
+    # for system testing don't send mails to the admin
+    if b.mail is 'jona.boecker@web.de':
+        recipient = 'jona.boecker@web.de'
     email = getMail(app)
     msg = Message(
-        "Benachrichtigung über Buchungsanfrage von " + b.firstName + " " + b.lastName, recipients=[admin_account]
+        "Benachrichtigung über Buchungsanfrage von " + b.firstName + " " + b.lastName, recipients=[recipient]
     )
     extra = ""
     extra += "Möchtest du den Zeitraum bei Bookiply blockieren? Das geht hier:"

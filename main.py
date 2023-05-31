@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, flash, redirect, url_for
+from flask import Flask, request, render_template, flash, redirect, url_for, send_from_directory
 from datetime import datetime, timedelta
 from icalendar import Calendar
 import google.cloud.logging
@@ -302,6 +302,11 @@ def get_availability():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('errorHandling/404.html'), 404
+
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory(app.static_folder, 'robots.txt'), 200
 
 
 @app.route('/')

@@ -230,7 +230,7 @@ def requestBooking():
             postValid = False
         elif startDate == endDate:
             flash('Buchungsbeginn und Buchungsende sind am gleichen Tag gewählt. '
-                  'Bitte wählen Sie korrekten Zeitraum aus.', 'error')
+                  'Bitte wählen Sie einen korrekten Zeitraum aus.', 'error')
             postValid = False
         # check if start day is a saturday
         elif startDate.weekday() != 5:
@@ -244,7 +244,7 @@ def requestBooking():
             postValid = False
         # check if flat is already booked
         elif not checkIfFlatIsAvailable(startDate, endDate):
-            flash('Die Wohnung ist im von Ihnen gewählte Zeit ist leider bereits gebucht. '
+            flash('Es tut uns sehr leid aber die Wohnung ist im von Ihnen gewählte Zeit ist leider bereits gebucht. '
                   'Bitte wählen Sie einen anderen Zeitraum aus.', 'error')
             postValid = False
 

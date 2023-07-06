@@ -36,7 +36,7 @@
                 <div>
                     <input type="radio" name="gender" value="Frau" id="frau" {% if request.form['gender'] == 'Frau' %} checked {% endif %} required><label for="frau">Frau</label>
                     <input type="radio" name="gender" value="Herr" id="herr" {% if request.form['gender'] == 'Herr' %} checked {% endif %} required><label for="herr">Herr</label>
-                    <input type="radio" name="gender" value="Divers" id="divers" {% if request.form['gender'] == 'Divers' %} checked {% endif %} required><label for="divers">Divers</label>
+                    <input type="radio" name="gender" value="Divers" id="divers" {% if request.form['gender'] == 'Divers' %} checked {% endif %} required><label for="divers">Andere</label>
                 </div>
                 <input type="text" id="email" name="email" placeholder="E-Mail-Adresse" value="{{ request.form['email'] }}" required>
                 <input type="text" id="first-name" name="first-name" placeholder="Vorname" value="{{ request.form['first-name'] }}" required>
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <textarea style="display: block; width: 95%;" id="message" name="message" rows="5" maxlength="1000" placeholder="Sie möchten uns noch etwas Mitteilen?">{{ request.form['message'] }}</textarea>
+        <textarea style="display: block; width: 95%;" id="message" name="message" rows="5" maxlength="1000" placeholder="Sie möchten uns noch etwas Mitteilen? Hier ist Platz dafür!">{{ request.form['message'] }}</textarea>
         <div class="mt-10">
             <input type="checkbox" id="data-protection" name="data-protection" required>
             <label for="data-protection">Ich habe die untenstehenden Hinweise zur Datenverarbeitung * gelesen

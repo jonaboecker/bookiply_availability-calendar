@@ -1,5 +1,4 @@
 runtime: python312
-threadsafe: no
 
 env_variables:
   BOOKIPLY_API_Key: $BOOKIPLY_API_KEY

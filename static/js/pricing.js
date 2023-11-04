@@ -1,10 +1,10 @@
 function price() {
     // prices per week:
-    const firstadults = 311.5;
+    const firstadults = 330;
     const person = 140;
     const childTo3 = 0;
     const child3to6 = 70;
-    const child6to15 = 87.5;
+    const child6to15 = 90;
     // per day:
     const touristTax = 2.5;
     const touristTaxChildren = 1.3;

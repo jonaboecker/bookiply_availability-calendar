@@ -1,3 +1,4 @@
+#file: noinspection AppEngineThreadsafe
 runtime: python312
 
 env_variables:

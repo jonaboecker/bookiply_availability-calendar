@@ -1,8 +1,8 @@
-Flask~=2.3.2
-icalendar~=5.0.7
-requests~=2.31.0
-flask_mail~=0.9.1
-google-cloud-logging~=3.5.0
+Flask~=3.0.3
+icalendar~=5.0.13
+requests~=2.32.3
+flask_mail~=0.10.0
+google-cloud-logging~=3.10.0
 
 # Required secrets:
 # BOOKIPLY_API_Key

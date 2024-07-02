@@ -1,10 +1,9 @@
 from flask import Flask, request, render_template, flash, redirect, url_for, send_from_directory
 from datetime import datetime, timedelta
 from icalendar import Calendar
-import google.cloud.logging
+# import google.cloud.logging
 import logging
 import requests
-import re
 import os
 
 import mailing
@@ -52,7 +51,6 @@ def get_month_data(year, month):
 
     # Erstellen Sie eine Liste mit Daten für den angegebenen Monat und Jahr
     month_data = []
-    today = datetime.today()
     # Berechnen Sie das letzte Datum des Monats
     last_day_of_month = datetime(year, month, 1) + timedelta(days=32)
     last_day_of_month = last_day_of_month.replace(day=1) - timedelta(days=1)

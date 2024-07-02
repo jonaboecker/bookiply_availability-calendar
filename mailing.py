@@ -9,8 +9,6 @@ from flask_mail import Mail, Message  # type: ignore
 from threading import Thread
 from datetime import datetime
 
-from typing import Optional, Tuple, List
-
 # where to send booking requests
 admin_account = os.environ.get('smtp_user')
 

@@ -9,6 +9,7 @@
             color: #970020;
             background-color: #ffd5de;
         }
+
         .success {
             padding: 20px;
             margin: 5px;
@@ -19,28 +20,35 @@
 {% endblock %}
 {% block scripts %}
     <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
-    <script src="{{url_for('static', filename='js/requestbooking.js')}}"></script>
-    <script src="{{url_for('static', filename='js/pricing.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/requestbooking.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/pricing.js') }}"></script>
 {% endblock %}
 {% block content %}
     {% for category, message in get_flashed_messages(with_categories=true) %}
-        <div class="{{ category }}" id="{{ message }}" >
+        <div class="{{ category }}" id="{{ message }}">
             {{ message }}
             <button onclick="hideElem('{{ message }}');" style="float: right;">x</button>
         </div>
     {% endfor %}
-	<form method="POST">
+    <form method="POST">
         <div class="form-2-col">
             <div class="row mb-10">
                 <h3>Kontaktdaten:</h3>
                 <div>
-                    <input type="radio" name="gender" value="Frau" id="frau" {% if request.form['gender'] == 'Frau' %} checked {% endif %} required><label for="frau">Frau</label>
-                    <input type="radio" name="gender" value="Herr" id="herr" {% if request.form['gender'] == 'Herr' %} checked {% endif %} required><label for="herr">Herr</label>
-                    <input type="radio" name="gender" value="Divers" id="divers" {% if request.form['gender'] == 'Divers' %} checked {% endif %} required><label for="divers">Andere</label>
+                    <input type="radio" name="gender" value="Frau" id="frau" {% if request.form['gender'] == 'Frau' %}
+                           checked {% endif %} required><label for="frau">Frau</label>
+                    <input type="radio" name="gender" value="Herr" id="herr" {% if request.form['gender'] == 'Herr' %}
+                           checked {% endif %} required><label for="herr">Herr</label>
+                    <input type="radio" name="gender" value="Divers" id="divers"
+                            {% if request.form['gender'] == 'Divers' %} checked {% endif %} required><label
+                        for="divers">Andere</label>
                 </div>
-                <input type="text" id="email" name="email" placeholder="E-Mail-Adresse" value="{{ request.form['email'] }}" required>
-                <input type="text" id="first-name" name="first-name" placeholder="Vorname" value="{{ request.form['first-name'] }}" required>
-                <input type="text" id="last-name" name="last-name" placeholder="Nachname" value="{{ request.form['last-name'] }}" required>
+                <input type="text" id="email" name="email" placeholder="E-Mail-Adresse"
+                       value="{{ request.form['email'] }}" required>
+                <input type="text" id="first-name" name="first-name" placeholder="Vorname"
+                       value="{{ request.form['first-name'] }}" required>
+                <input type="text" id="last-name" name="last-name" placeholder="Nachname"
+                       value="{{ request.form['last-name'] }}" required>
                 <div>
                     <input type="checkbox" id="confirmation-mail" name="confirmation-mail" checked>
                     <label for="confirmation-mail">Ich möchte eine Bestätigungsmail erhalten</label>
@@ -49,32 +57,41 @@
             <div class="row mb-10">
                 <h3>Buchung:</h3>
                 <label for="start-date">Anreisedatum:</label>
-                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}" onchange="price()" required><br>
+                <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}"
+                       onchange="price()" required><br>
 
                 <label for="end-date">Abreisedatum:</label>
-                <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}" onchange="price()" required>
+                <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}"
+                       onchange="price()" required>
 
                 <div id="guests">
                     <div class="guest-type">
                         <label for="adults">Erwachsene:</label>
                         <div class="guest-selector">
-                            <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('adults')"></i>
-                            <input type="number" id="adults" name="adults" value={% if request.form['adults'] %} {{ request.form['adults'] }} {% endif %} 1 readonly>
-                            <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('adults')"></i>
+                            <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;"
+                               onclick="decrementGuests('adults')"></i>
+                            <input type="number" id="adults" name="adults"
+                                   value={% if request.form['adults'] %} {{ request.form['adults'] }} {% endif %} 1
+                                   readonly>
+                            <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;"
+                               onclick="incrementGuests('adults')"></i>
                         </div>
                     </div>
                     <div class="guest-type">
                         <label for="children">Kinder:</label>
                         <div class="guest-selector">
-                            <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;" onclick="decrementGuests('children')"></i>
+                            <i class="fa-solid fa-user-minus fa-xl" style="color: #3286e6;"
+                               onclick="decrementGuests('children')"></i>
                             <input type="number" id="children" name="children" value=0 readonly>
-                            <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;" onclick="incrementGuests('children')"></i>
+                            <i class="fa-solid fa-user-plus fa-xl" style="color: #3286e6;"
+                               onclick="incrementGuests('children')"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <textarea style="display: block; width: 95%;" id="message" name="message" rows="5" maxlength="1000" placeholder="Sie möchten uns noch etwas Mitteilen? Hier ist Platz dafür!">{{ request.form['message'] }}</textarea>
+        <textarea style="display: block; width: 95%;" id="message" name="message" rows="5" maxlength="1000"
+                  placeholder="Sie möchten uns noch etwas Mitteilen? Hier ist Platz dafür!">{{ request.form['message'] }}</textarea>
         <div class="mt-10">
             <input type="checkbox" id="data-protection" name="data-protection" required>
             <label for="data-protection">Ich habe die untenstehenden Hinweise zur Datenverarbeitung * gelesen
@@ -85,12 +102,15 @@
             <p>Geben Sie Ihre Buchungsdaten an und wir zeigen hier Ihre voraussichtlichen Kosten an</p>
         </div>
         <div id="pricing" style="display:none;" class="mt-10">
-            <p>Der voraussichtliche Preis für: <span id="p_days" class="text-bold text-normal"></span> Tage: <span id="p_flat" class="text-bold text-normal"></span>€</p>
+            <p>Der voraussichtliche Preis für: <span id="p_days" class="text-bold text-normal"></span> Tage: <span
+                    id="p_flat" class="text-bold text-normal"></span>€</p>
             <p>Kurtaxe: <span id="p_tourist-tax" class="text-bold text-normal"></span>€</p>
             <p>Gesamtbetrag: <span id="p_total" class="text-bold text-normal"></span>€</p>
+            <p>Kostenfreies Stornieren <span id="p_storno" class="text-bold text-normal"></span></p>
         </div>
         <input type="hidden" name="price-flat" id="price-flat" value="{{ request.form['price-flat'] }}">
         <input type="hidden" name="price-tax" id="price-tax" value="{{ request.form['price-tax'] }}">
+        <input type="hidden" name="storno-date" id="storno-date" value="{{ request.form['storno-date'] }}">
     </form>
     <div id="data-protection-text" class="mt-10">
         <h3 style="font-size: 12px;">* Hinweise zur Datenverarbeitung</h3>

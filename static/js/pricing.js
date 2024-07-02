@@ -1,20 +1,25 @@
 function price() {
     let firstadults, person, childTo3, child3to6, child6to15, touristTax, touristTaxChildren;
-
     if (new Date(document.getElementById("start-date").value).getFullYear() === 2024) {
+        // season 2024
+        // prices per week:
         firstadults = 330;
         person = 140;
         childTo3 = 0;
         child3to6 = 70;
         child6to15 = 90;
+        // per day:
         touristTax = 2.5;
         touristTaxChildren = 1.3;
     } else {
+        // season 2025
+        // prices per week:
         firstadults = 345;
         person = 150;
         childTo3 = 0;
         child3to6 = 75;
         child6to15 = 95;
+        // per day:
         touristTax = 2.5;
         touristTaxChildren = 1.3;
     }
@@ -67,12 +72,23 @@ function price() {
     let elem_p_flat = document.getElementById('p_flat');
     let elem_p_tourist_tax = document.getElementById('p_tourist-tax');
     let elem_p_total = document.getElementById('p_total');
+    let elem_p_storno = document.getElementById('p_storno');
     let input_p_flat = document.getElementById('price-flat');
     let input_p_tax = document.getElementById('price-tax');
+
+
     elem_p_days.textContent = String(days);
     elem_p_flat.textContent = String(p_flat);
     elem_p_tourist_tax.textContent = String(taxAmount);
     elem_p_total.textContent = String(p_flat + taxAmount);
     input_p_flat.value = String(p_flat);
     input_p_tax.value = String(taxAmount);
+    const currentDate = new Date();
+    const fourWeeksInMilliseconds = 4 * 7 * 24 * 60 * 60 * 1000; // 4 weeks in milliseconds
+    if (startDate - currentDate > fourWeeksInMilliseconds) {
+        const fourWeeksBeforeStartDate = new Date(startDate.getTime() - fourWeeksInMilliseconds);
+        elem_p_storno.textContent = "möglich bis " + fourWeeksBeforeStartDate.toLocaleDateString();
+    } else {
+        elem_p_storno.textContent = "nicht mehr möglich";
+    }
 }

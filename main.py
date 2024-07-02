@@ -171,9 +171,10 @@ def checkIfFlatIsAvailable(startDate, endDate):
     return True
 
 
-def priceText(price_flat, price_tax, days):
+def priceText(price_flat, price_tax, days, storno_date):
     return "Der voraussichtliche Preis für " + str(days) + " Tage: " + str(price_flat) + "€\nKurtaxe: " \
-        + str(price_tax) + "€\nGesamtpreis: " + str(float(price_flat) + float(price_tax)) + "€"
+        + str(price_tax) + "€\nGesamtpreis: " + str(
+            float(price_flat) + float(price_tax)) + "€\n Kostenfreies Stornieren " + storno_date
 
 
 @app.route('/requestbooking', methods=['GET', 'POST'])
@@ -193,6 +194,7 @@ def requestBooking():
         data_protection = "data-protection" in request.form
         price_flat = request.form['price-flat']
         price_tax = request.form['price-tax']
+        storno_date = request.form['storno-date']
         # get children ages
         childrenAges = []
         for i in range(1, children + 1):
@@ -244,7 +246,7 @@ def requestBooking():
             postValid = False
         # check if flat is already booked
         elif not checkIfFlatIsAvailable(startDate, endDate):
-            flash('Es tut uns sehr leid aber die Wohnung ist im von Ihnen gewählte Zeit ist leider bereits gebucht. '
+            flash('Es tut uns sehr leid aber die Wohnung ist im von Ihnen gewählte Zeit leider bereits gebucht. '
                   'Bitte wählen Sie einen anderen Zeitraum aus.', 'error')
             postValid = False
 
@@ -264,10 +266,10 @@ def requestBooking():
         if data_protection is False:
             flash('Bitte bestätigen Sie die Datenschutzerklärung!', 'error')
             postValid = False
-        if not price_flat or not price_tax:
+        if not price_flat or not price_tax or not storno_date:
             price = "Der voraussichtliche Preis konnte leider nicht ermittelt werden."
         else:
-            price = priceText(price_flat, price_tax, (endDate - startDate).days)
+            price = priceText(price_flat, price_tax, (endDate - startDate).days, storno_date)
         if postValid:
             b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message,
                                 childrenAges, price)

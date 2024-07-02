@@ -75,6 +75,7 @@ function price() {
     let elem_p_storno = document.getElementById('p_storno');
     let input_p_flat = document.getElementById('price-flat');
     let input_p_tax = document.getElementById('price-tax');
+    let input_p_storno = document.getElementById('storno-date');
 
 
     elem_p_days.textContent = String(days);
@@ -85,10 +86,13 @@ function price() {
     input_p_tax.value = String(taxAmount);
     const currentDate = new Date();
     const fourWeeksInMilliseconds = 4 * 7 * 24 * 60 * 60 * 1000; // 4 weeks in milliseconds
+    let text;
     if (startDate - currentDate > fourWeeksInMilliseconds) {
         const fourWeeksBeforeStartDate = new Date(startDate.getTime() - fourWeeksInMilliseconds);
-        elem_p_storno.textContent = "möglich bis " + fourWeeksBeforeStartDate.toLocaleDateString();
+        text = "möglich bis " + fourWeeksBeforeStartDate.toLocaleDateString();
     } else {
-        elem_p_storno.textContent = "nicht mehr möglich";
+        text = "nicht mehr möglich";
     }
+    elem_p_storno.textContent = text;
+    input_p_storno.value = text;
 }

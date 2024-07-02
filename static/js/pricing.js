@@ -1,13 +1,23 @@
 function price() {
-    // prices per week:
-    const firstadults = 330;
-    const person = 140;
-    const childTo3 = 0;
-    const child3to6 = 70;
-    const child6to15 = 90;
-    // per day:
-    const touristTax = 2.5;
-    const touristTaxChildren = 1.3;
+    let firstadults, person, childTo3, child3to6, child6to15, touristTax, touristTaxChildren;
+
+    if (new Date(document.getElementById("start-date").value).getFullYear() === 2024) {
+        firstadults = 330;
+        person = 140;
+        childTo3 = 0;
+        child3to6 = 70;
+        child6to15 = 90;
+        touristTax = 2.5;
+        touristTaxChildren = 1.3;
+    } else {
+        firstadults = 345;
+        person = 150;
+        childTo3 = 0;
+        child3to6 = 75;
+        child6to15 = 95;
+        touristTax = 2.5;
+        touristTaxChildren = 1.3;
+    }
 
     const startDate = new Date(document.getElementById("start-date").value);
     const endDate = new Date(document.getElementById("end-date").value);
@@ -26,12 +36,11 @@ function price() {
     for (let i = 1; i <= children; i++) {
         childrenAges[i - 1] = document.getElementById("age-" + i).value;
     }
-    const currentGuests = parseInt(adults.value) + parseInt(children.value);
     let p_flat = 0;
     let taxAmount = 0;
     let weeks = days / 7;
     for (let i = 1; i <= adults; i++) {
-        if(i <= 2) {
+        if (i <= 2) {
             p_flat += firstadults * weeks
         } else {
             p_flat += person * weeks;
@@ -48,7 +57,7 @@ function price() {
         } else {
             p_flat += person * weeks;
         }
-        if(childrenAges[i] > 16) {
+        if (childrenAges[i] > 16) {
             taxAmount += touristTax * 7 * weeks;
         } else if (childrenAges[i] > 6) {
             taxAmount += touristTaxChildren * 7 * weeks;

@@ -15,7 +15,7 @@ function price() {
         // season 2025
         // prices per week:
         firstadults = 345;
-        person = 150;
+        person = 140;
         childTo3 = 0;
         child3to6 = 75;
         child6to15 = 95;

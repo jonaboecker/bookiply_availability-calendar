@@ -2,7 +2,7 @@ Flask~=3.0.3
 icalendar~=5.0.13
 requests~=2.32.3
 flask_mail~=0.10.0
-google-cloud-logging~=3.10.0
+google-cloud-logging~=3.11.2
 
 # Required secrets:
 # BOOKIPLY_API_Key

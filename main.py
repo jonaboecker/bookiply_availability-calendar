@@ -144,6 +144,7 @@ def get_Infos(month, year):
     }
     infos = {
         'month_text': months.get(month),
+        'month_number': month,
         'year': year,
         'thisYear': today.strftime("%Y"),
         'prev_year': prev_date.strftime("%Y"),

@@ -41,6 +41,8 @@ jobs:
       with:
           project_id: ${{ secrets.GCP_PROJECT }}
           workload_identity_provider: 'projects/798044178201/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
+          create_credentials_file: true
+          export_environment_variables: true
     - name: Deploy to App Engine
       id: deploy
       uses: google-github-actions/deploy-appengine@v2

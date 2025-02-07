@@ -36,6 +36,7 @@ jobs:
       with:
           project_id: ${{ secrets.GCP_PROJECT }}
           workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          id_token_audience: 'https://github.com/jonaboecker/bookiply_availability-calendar'
     - name: Deploy to App Engine
       id: deploy
       uses: google-github-actions/deploy-appengine@v2

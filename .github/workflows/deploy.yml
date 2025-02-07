@@ -40,7 +40,7 @@ jobs:
       uses: 'google-github-actions/auth@v2'
       with:
           project_id: ${{ secrets.GCP_PROJECT }}
-          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          workload_identity_provider: 'projects/798044178201/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
           id_token_audience: '//iam.googleapis.com/projects/798044178201/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
     - name: Deploy to App Engine
       id: deploy

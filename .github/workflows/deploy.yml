@@ -31,6 +31,11 @@ jobs:
         smtp_password: ${{ secrets.SMTP_PASSWORD }}
       with:
         app_yaml_path: "app.yaml"
+    - name: Debug Secrets
+      run: |
+        echo "workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
+        echo "id_token_audience: ${{ secrets.GCP_ID_TOKEN_AUDIENCE }}"
+        echo "project_id: ${{ secrets.GCP_PROJECT }}"
     - name: Authenticate with Google Cloud
       uses: 'google-github-actions/auth@v2'
       with:

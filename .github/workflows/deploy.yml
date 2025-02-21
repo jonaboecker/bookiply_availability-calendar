@@ -36,6 +36,7 @@ jobs:
       uses: 'google-github-actions/auth@v2.1.8'
       with:
           project_id: ${{ secrets.GCP_PROJECT }}
+          service_account_email: github-actions-sa@fewooma.iam.gserviceaccount.com
           workload_identity_provider: 'projects/798044178201/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
     - name: Deploy to App Engine
       id: 'deploy'

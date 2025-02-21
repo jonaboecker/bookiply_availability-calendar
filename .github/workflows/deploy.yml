@@ -31,20 +31,15 @@ jobs:
         smtp_password: ${{ secrets.SMTP_PASSWORD }}
       with:
         app_yaml_path: "app.yaml"
-    - name: Debug Secrets
-      run: |
-        echo "workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}"
-        echo "id_token_audience: ${{ secrets.GCP_ID_TOKEN_AUDIENCE }}"
-        echo "project_id: ${{ secrets.GCP_PROJECT }}"
     - name: Authenticate with Google Cloud
       id: 'auth'
-      uses: 'google-github-actions/auth@v2'
+      uses: 'google-github-actions/auth@v2.1.8'
       with:
           project_id: ${{ secrets.GCP_PROJECT }}
           workload_identity_provider: 'projects/798044178201/locations/global/workloadIdentityPools/github-actions-pool/providers/github-actions-provider'
     - name: Deploy to App Engine
-      id: deploy
-      uses: google-github-actions/deploy-appengine@v2
+      id: 'deploy'
+      uses: 'google-github-actions/deploy-appengine@v2.1.5'
       with:
         deliverables: app.yaml
         project_id: ${{ secrets.GCP_PROJECT }}

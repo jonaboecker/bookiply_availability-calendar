@@ -1,17 +1,6 @@
 function price() {
     let firstadults, person, childTo3, child3to6, child6to15, touristTax, touristTaxChildren;
-    if (new Date(document.getElementById("start-date").value).getFullYear() === 2024) {
-        // season 2024
-        // prices per week:
-        firstadults = 330;
-        person = 140;
-        childTo3 = 0;
-        child3to6 = 70;
-        child6to15 = 90;
-        // per day:
-        touristTax = 2.5;
-        touristTaxChildren = 1.3;
-    } else {
+    if (new Date(document.getElementById("start-date").value).getFullYear() === 2025) {
         // season 2025
         // prices per week:
         firstadults = 345;
@@ -19,6 +8,17 @@ function price() {
         childTo3 = 0;
         child3to6 = 75;
         child6to15 = 95;
+        // per day:
+        touristTax = 2.5;
+        touristTaxChildren = 1.3;
+    } else {
+        // season 2026
+        // prices per week:
+        firstadults = 355;
+        person = 145;
+        childTo3 = 0;
+        child3to6 = 75;
+        child6to15 = 100;
         // per day:
         touristTax = 2.5;
         touristTaxChildren = 1.3;

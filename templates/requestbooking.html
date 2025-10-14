@@ -22,6 +22,7 @@
     <script src="https://kit.fontawesome.com/{{ fa_key }}.js" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/requestbooking.js') }}"></script>
     <script src="{{ url_for('static', filename='js/pricing.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/calculation.js') }}"></script>
 {% endblock %}
 {% block content %}
     {% for category, message in get_flashed_messages(with_categories=true) %}
@@ -58,11 +59,11 @@
                 <h3>Buchung:</h3>
                 <label for="start-date">Anreisedatum:</label>
                 <input type="date" id="start-date" name="start-date" value="{{ request.form['start-date'] }}"
-                       onchange="price()" required><br>
+                       onchange="updatePriceOnUI()" required><br>
 
                 <label for="end-date">Abreisedatum:</label>
                 <input type="date" id="end-date" name="end-date" value="{{ request.form['end-date'] }}"
-                       onchange="price()" required>
+                       onchange="updatePriceOnUI()" required>
 
                 <div id="guests">
                     <div class="guest-type">

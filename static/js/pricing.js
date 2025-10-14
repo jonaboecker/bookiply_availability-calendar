@@ -1,98 +1,50 @@
-function price() {
-    let firstadults, person, childTo3, child3to6, child6to15, touristTax, touristTaxChildren;
-    if (new Date(document.getElementById("start-date").value).getFullYear() === 2025) {
-        // season 2025
-        // prices per week:
-        firstadults = 345;
-        person = 140;
-        childTo3 = 0;
-        child3to6 = 75;
-        child6to15 = 95;
-        // per day:
-        touristTax = 2.5;
-        touristTaxChildren = 1.3;
-    } else {
-        // season 2026
-        // prices per week:
-        firstadults = 355;
-        person = 145;
-        childTo3 = 0;
-        child3to6 = 75;
-        child6to15 = 100;
-        // per day:
-        touristTax = 2.5;
-        touristTaxChildren = 1.3;
-    }
+/**
+ * Updates the Price on the UI dependent on booking information.
+ */
 
-    const startDate = new Date(document.getElementById("start-date").value);
-    const endDate = new Date(document.getElementById("end-date").value);
-    const days = (endDate - startDate) / (1000 * 60 * 60 * 24);
-    if (days <= 0 || days % 7 !== 0) {
-        hideElem('pricing');
-        showElem('pricing-preview')
-    } else {
-        showElem('pricing')
-        hideElem('pricing-preview')
-    }
+function updatePriceOnUI() {
+    const startDateValue = document.getElementById("start-date").value;
+    const endDateValue = document.getElementById("end-date").value;
 
+    // Collect data from form
     const adults = parseInt(document.getElementById("adults").value);
-    const children = parseInt(document.getElementById("children").value);
-    let childrenAges = [children];
-    for (let i = 1; i <= children; i++) {
-        childrenAges[i - 1] = document.getElementById("age-" + i).value;
+    const childrenCount = parseInt(document.getElementById("children").value);
+    let childrenAges = [];
+    for (let i = 1; i <= childrenCount; i++) {
+        childrenAges.push(parseInt(document.getElementById("age-" + i).value));
     }
-    let p_flat = 0;
-    let taxAmount = 0;
-    let weeks = days / 7;
-    for (let i = 1; i <= adults; i++) {
-        if (i <= 2) {
-            p_flat += firstadults * weeks
-        } else {
-            p_flat += person * weeks;
-        }
-        taxAmount += touristTax * 7 * weeks;
-    }
-    for (let i = 0; i < children; i++) {
-        if (childrenAges[i] < 3) {
-            p_flat += childTo3 * weeks;
-        } else if (childrenAges[i] < 6) {
-            p_flat += child3to6 * weeks;
-        } else if (childrenAges[i] <= 15) {
-            p_flat += child6to15 * weeks;
-        } else {
-            p_flat += person * weeks;
-        }
-        if (childrenAges[i] > 16) {
-            taxAmount += touristTax * 7 * weeks;
-        } else if (childrenAges[i] > 6) {
-            taxAmount += touristTaxChildren * 7 * weeks;
-        }
-    }
-    let elem_p_days = document.getElementById('p_days');
-    let elem_p_flat = document.getElementById('p_flat');
-    let elem_p_tourist_tax = document.getElementById('p_tourist-tax');
-    let elem_p_total = document.getElementById('p_total');
-    let elem_p_storno = document.getElementById('p_storno');
-    let input_p_flat = document.getElementById('price-flat');
-    let input_p_tax = document.getElementById('price-tax');
-    let input_p_storno = document.getElementById('storno-date');
 
+    // Create the data object for the calculation function
+    const bookingData = {
+        startDateStr: startDateValue,
+        endDateStr: endDateValue,
+        adults: adults,
+        childrenAges: childrenAges
+    };
 
-    elem_p_days.textContent = String(days);
-    elem_p_flat.textContent = String(p_flat);
-    elem_p_tourist_tax.textContent = String(taxAmount);
-    elem_p_total.textContent = String(p_flat + taxAmount);
-    input_p_flat.value = String(p_flat);
-    input_p_tax.value = String(taxAmount);
-    const currentDate = new Date();
-    const fourWeeksInMilliseconds = 4 * 7 * 24 * 60 * 60 * 1000; // 4 weeks in milliseconds
-    let text;
-    if (startDate - currentDate > fourWeeksInMilliseconds) {
-        const fourWeeksBeforeStartDate = new Date(startDate.getTime() - fourWeeksInMilliseconds);
-        text = "möglich bis " + fourWeeksBeforeStartDate.toLocaleDateString();
-    } else {
-        text = "nicht mehr möglich";
+    const result = calculatePrice(bookingData);
+
+    // Process the result and update the website
+    if (!result.validDuration) {
+        hideElem('pricing');
+        showElem('pricing-preview');
+        return;
     }
-    elem_p_storno.textContent = text;
-    input_p_storno.value = text;
+
+    showElem('pricing');
+    hideElem('pricing-preview');
+
+    document.getElementById('p_days').textContent = result.days;
+    document.getElementById('p_flat').textContent = result.flatRate;
+    document.getElementById('p_tourist-tax').textContent = result.tax;
+    document.getElementById('p_total').textContent = result.total;
+    document.getElementById('p_storno').textContent = result.stornoText;
+
+    // Update form fields for submission
+    document.getElementById('price-flat').value = result.flatRate;
+    document.getElementById('price-tax').value = result.tax;
+    document.getElementById('storno-date').value = result.stornoText;
 }
+
+function showElem(id) { document.getElementById(id).style.display = 'block'; }
+function hideElem(id) { document.getElementById(id).style.display = 'none'; }

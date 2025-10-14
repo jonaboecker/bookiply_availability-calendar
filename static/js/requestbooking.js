@@ -1,5 +1,5 @@
 window.onload = function() {
-  price()
+  updatePriceOnUI()
 }
 
 function hideElem(elem) {
@@ -23,7 +23,7 @@ function incrementGuests(guestType) {
       addAgeDropdown();
     }
   }
-  price();
+  updatePriceOnUI();
 }
 
 function decrementGuests(guestType) {
@@ -36,7 +36,7 @@ function decrementGuests(guestType) {
       removeAgeDropdown();
     }
   }
-  price();
+  updatePriceOnUI();
 }
 
 function addAgeDropdown() {
@@ -49,7 +49,7 @@ function addAgeDropdown() {
     var select = document.createElement("select");
     select.name = "age-" + (numChildren);
     select.id = "age-" + (numChildren);
-    select.onchange = function() {price()}
+    select.onchange = function() {updatePriceOnUI()}
     var optionDefault = document.createElement("option");
     optionDefault.value = "-1";
     var optionTextDefault = document.createTextNode("wählen Sie bitte ein Alter aus");
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var children = document.getElementById("children");
   children.addEventListener("change", function() {
     var numChildren = parseInt(children.value);
-    if (numChildren == 0) {
+    if (numChildren === 0) {
       removeAgeDropdown();
     } else {
       var currentChildren = document.querySelectorAll('[id^="age-"]').length;

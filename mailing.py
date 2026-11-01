@@ -45,7 +45,7 @@ class Booking:
 #     return t
 
 
-def bookingText(b: Booking) -> str:
+def booking_text(b: Booking) -> str:
     s = """Buchungsbeginn:  %s
 Buchungsende:    %s
 Gebuchte Tage:   %s Tage
@@ -67,7 +67,7 @@ Kinder: %s""" % (
     return s
 
 
-def mailBottom() -> str:
+def mail_bottom() -> str:
     return """
 Viele Grüße aus Eriskirch
 i.A. Frau Haidle
@@ -105,7 +105,7 @@ def getMail(app: Flask) -> Mail:
 # ------------------------------------------------------------------------------------------
 
 
-def sendAdminNotification(app: Flask, b: Booking):
+def send_admin_notification(app: Flask, b: Booking):
     # no admin notifications when in the testing app
     recipient = admin_account
     # for system testing don't send mails to the admin
@@ -130,12 +130,12 @@ Die Bestätigung bzw. Ablehnung der Anfrage schickst du bitte an %s
 Liebe Grüße,
 Deine Buchungsplattform
 """ % (b.gender, b.firstName, b.lastName,
-       bookingText(b), extra, b.mail)
+       booking_text(b), extra, b.mail)
     thr = Thread(target=send_async_email, args=[app, email, msg])
     thr.start()
 
 
-def sendUserNotification(app: Flask, b: Booking):
+def send_user_notification(app: Flask, b: Booking):
     # no user notifications when in the testing app
     if app.debug:
         print("debug send user-notif. Mail")
@@ -162,7 +162,7 @@ Buchung:
 
 Wenn Sie uns zwischenzeitlich noch etwas Mitteilen möchten Antworten Sie einfach auf diese E-Mail.
 %s
-""" % (salutation, bookingText(b), mailBottom())
+""" % (salutation, booking_text(b), mail_bottom())
     thr = Thread(target=send_async_email, args=[app, email, msg])
     thr.start()
 

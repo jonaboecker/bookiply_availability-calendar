@@ -1,15 +1,15 @@
 # Availability-calendar for Bookiply rental Appartments
-This Python Flask Applikation queries bookings from Bookiply (or each other Booking Platform supports iCal) and output them as a HTML-Calendar
+This Python Flask Applikation queries bookings from Holidu (former Bookiply) - or each other Booking Platform supports iCal - and output them as a HTML-Calendar
 
 ## Development Environment
 
 ### Setting up Python:
 
-Install: python3.9 python3.9-dev python3.9-venv
+Install: python3.14 python3.14-dev python3.14-venv
 
 Setting up an isolated environment:
 ```
-python3.9 -m venv venv
+python3.14 -m venv venv
 ```
 
 This sets up everything in the `venv` directory.

@@ -13,7 +13,7 @@ app.secret_key = os.environ.get('Flask_Secret_Key_FEWO')
 
 logging.basicConfig(level=logging.INFO)
 
-BOOKIPY_URL = 'https://api.bookiply.com/pmc/rest/apartments/43146778/ical.ics?key=' + os.environ.get('BOOKIPLY_API_Key')
+HOLIDU_ICAL_URL = os.environ.get('HOLIDU_API_Key')
 fa_key = os.environ.get('fa_API_KEY')
 # booked_dates may could occur errors, if two requests at same time?!
 # used in get_month_data (read and write) and calculate_monthStartDays (write)
@@ -25,8 +25,8 @@ booked_dates = []
 #     logClient.setup_logging()
 
 
-def getICALCalendar():
-    response = requests.get(BOOKIPY_URL)
+def get_ical_calendar():
+    response = requests.get(HOLIDU_ICAL_URL)
     content = response.text
     cal = Calendar.from_ical(content)
     return cal
@@ -34,7 +34,7 @@ def getICALCalendar():
 
 def get_month_data(year, month):
     # Verarbeiten Sie den Inhalt der iCal-Datei
-    cal = getICALCalendar()
+    cal = get_ical_calendar()
     global booked_dates
     booked_dates = []
 
@@ -58,13 +58,13 @@ def get_month_data(year, month):
         date = datetime(year, month, day)
         day_data = {
             "date": date,
-            "status": calculateStatusofDate(date)
+            "status": calculate_status_of_date(date)
         }
         month_data.append(day_data)
     return month_data
 
 
-def calculateStatusofDate(date):
+def calculate_status_of_date(date):
     status = "free"
     # flat is free at last and first day of booking:
     # could cause problems, if flat is booked just one day!
@@ -84,13 +84,13 @@ def calculateStatusofDate(date):
 
 
 # add days (Monday to weekday of day 1 of month) to dates
-def calculate_monthStartDays(dates):
+def calculate_month_start_days(dates):
     month_start = dates[0].get('date')
     first_weekday = month_start.weekday()
     for i in range(1, first_weekday + 1):
         temp_date = {
             "date": month_start - timedelta(i),
-            "status": calculateStatusofDate(month_start - timedelta(i))
+            "status": calculate_status_of_date(month_start - timedelta(i))
         }
         dates.insert(0, temp_date)
     return dates
@@ -114,7 +114,7 @@ def calculate_weeks(dates):
         if day is None:
             temp_date = {
                 "date": dates[len(dates) - 1].get('date') + timedelta(i),
-                "status": calculateStatusofDate(dates[len(dates) - 1].get('date') + timedelta(i))
+                "status": calculate_status_of_date(dates[len(dates) - 1].get('date') + timedelta(i))
             }
             tempLastWeek.append(temp_date)
             i += 1
@@ -124,7 +124,7 @@ def calculate_weeks(dates):
     return weeks
 
 
-def get_Infos(month, year):
+def get_infos(month, year):
     today = datetime.today()
     prev_date = datetime(year, month, 1) - timedelta(days=1)
     next_date = datetime(year, month, 1) + timedelta(days=32)
@@ -155,8 +155,8 @@ def get_Infos(month, year):
     return infos
 
 
-def checkIfFlatIsAvailable(startDate, endDate):
-    cal = getICALCalendar()
+def check_if_flat_is_available(startDate, endDate):
+    cal = get_ical_calendar()
     # iterate through all events in requested period
     for event in cal.walk('VEVENT'):
         start = datetime.strptime(str(event.get('DTSTART').dt), '%Y-%m-%d')
@@ -177,7 +177,7 @@ def priceText(price_flat, price_tax, days, storno_date):
 
 
 @app.route('/requestbooking', methods=['GET', 'POST'])
-def requestBooking():
+def request_booking():
     if request.method == 'POST':
         postValid = True
         mail = request.form['email']
@@ -244,7 +244,7 @@ def requestBooking():
                   'Bitte wählen Sie einen Samstag als Buchungsende!', 'error')
             postValid = False
         # check if flat is already booked
-        elif not checkIfFlatIsAvailable(startDate, endDate):
+        elif not check_if_flat_is_available(startDate, endDate):
             flash('Es tut uns sehr leid aber die Wohnung ist im von Ihnen gewählte Zeit leider bereits gebucht. '
                   'Bitte wählen Sie einen anderen Zeitraum aus.', 'error')
             postValid = False
@@ -273,12 +273,12 @@ def requestBooking():
             b = mailing.Booking(mail, gender, firstName, lastName, startDate, endDate, adults, children, message,
                                 childrenAges, price)
             # Handle request
-            mailing.sendAdminNotification(app, b)
+            mailing.send_admin_notification(app, b)
             flash('Vielen Dank für Ihre Buchungsanfrage! '
                   'Wir haben diese erhalten und melden uns schnellstmöglich bei Ihnen.', 'success')
             if sendConfirmation:
                 # send submit mail
-                mailing.sendUserNotification(app, b)
+                mailing.send_user_notification(app, b)
                 flash('Wir haben Ihnen eine Bestätigungsmail an ' + mail + ' geschickt. '
                                                                            'Bitte auch den Spam-Ordner kontrollieren ;-)',
                       'success')
@@ -294,9 +294,9 @@ def get_availability():
     if month not in range(1, 13):
         return render_template('errorHandling/error.html', message='ValueError: month must be in 1..12 or empty'), 400
     dates = get_month_data(year, month)
-    dates = calculate_monthStartDays(dates)
+    dates = calculate_month_start_days(dates)
     weeks = calculate_weeks(dates)
-    infos = get_Infos(month, year)
+    infos = get_infos(month, year)
     return render_template('calendar.html', weeks=weeks, infos=infos, fa_key=fa_key), 200
 
 

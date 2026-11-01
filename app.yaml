@@ -1,5 +1,5 @@
 #file: noinspection AppEngineThreadsafe
-runtime: python312
+runtime: python314
 
 env_variables:
   BOOKIPLY_API_Key: $BOOKIPLY_API_KEY

@@ -23,7 +23,7 @@ jobs:
     - name: Replace EnvVariables
       uses: 73h/gae-app-yaml-replace-env-variables@v0.3
       env:
-        BOOKIPLY_API_KEY: ${{ secrets.BOOKIPLY_API_KEY }}
+        HOLIDU_API_Key: ${{ secrets.HOLIDU_API_Key }}
         FA_API_KEY: ${{ secrets.FA_API_KEY }}
         Flask_Secret_Key_FEWO: ${{ secrets.FLASK_SECRET_KEY_FEWO }}
         smtp_server: ${{ secrets.SMTP_SERVER }}

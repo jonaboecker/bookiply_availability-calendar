@@ -2,7 +2,7 @@
 runtime: python314
 
 env_variables:
-  BOOKIPLY_API_Key: $BOOKIPLY_API_KEY
+  HOLIDU_API_Key: $HOLIDU_API_Key
   fa_API_KEY: $FA_API_KEY
   Flask_Secret_Key_FEWO: $Flask_Secret_Key_FEWO
   smtp_server: $smtp_server
